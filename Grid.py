@@ -1,3 +1,7 @@
+import numpy as N
+
+from Cell import cell
+from Carrier import carrier
 
 class Grid(object):
     #### Variables ####
@@ -47,4 +51,19 @@ class Grid(object):
     
     QUARANTINED_MIN #Number of living needed to maintain Quarantine
     QUARANTINE_MAX #Number of infected to implement Quarantine
+    
+    GRID #A grid of cells
+    CARRIERS #An array of all the carriers
+    
+    def init():
+        #Initialize grid, calls other initializations
+        
+    def initGrid():
+        #Initialize the grid and cells
+        
+    def initCarrier():
+        #Initialize the carriers in the grid
+        
+    def updateGrid():
+        #Run through each carrier and cell, calling update for each carrier and then cell.
     
