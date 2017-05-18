@@ -33,8 +33,7 @@ class Grid(object):
     CITY = 1
     SUBURBAN = 2
     RURAL = 3
-    ROAD = 4
-    WATER = 5
+    BARRIER = 4
     
     # Grid Size #
     GRID_WIDTH
