@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 class Visualize(object):
     
-    def plot_grid(topGrid, envGrid, list_of_carriers=[]):
+    def plot_env_grid(env_grid):
         """
         Plots a given grid, which is a 2D array of cells.
         
@@ -23,11 +23,28 @@ class Visualize(object):
             Rural: orange
             Land: brown
             Barrier: purple
-            
+        """
+        
+        #take env_grid and give the border an outline
+        #loop through each cell in grid and give color based on cell data
+        #plot with matplotlib
+        #update color hues/shading based on cell data change
+        
+    def plot_top_grid(top_grid, list_of_carriers=[]):
+        """
         Carriers are represented as a dot that moves around cells.
-                
+        Carrier dots grow in size depending on population of swarm.        
+                                        
         Carrier:
             Not Infected: white
-            Infected: yellow 
+            Infected: yellow
+            
+        Dot fades from white to yellow depending on infected amount.
         """
+        
+        #takes top_grid and overlay on top of all env_grids
+        #takes list_of_carriers and represents them as dots
+        #add color to dots
+        #update dot movement/merging as they travel through env_grids
+        #update dot color fade as carrier data changes
         
