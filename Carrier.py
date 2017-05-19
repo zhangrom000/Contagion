@@ -26,11 +26,18 @@ class Carrier(object):
         self.INFECTED = infected
         self.INFECTION_RATE = infect_rate
     
-    # Update population of swarm
+    # Update population and location of swarm
     def update(self):
         self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + POP_GROWTH_RATE)
+        self.Move(self)
         pass
     
+    
+    def Move(self):
+        # Check mobility versus a rng to determine if it moves
+        # Check if nearby agents, or for a point of interest
+        # move in a direction        
+        
     def Infect(self):
         INFECTED = True
         pass
