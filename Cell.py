@@ -51,7 +51,12 @@ class Cell(object):
     
     """
     def update_population(self):
-        #TODO
+        """
+        PSEUDOCODE: 
+        Check environment value, agent state at the coordinate of this Cell 
+        in order to determine incrementation of infected population within this
+        time step. Increment number of dead based on infected lifespan. 
+        """
     
     
         
