@@ -5,7 +5,7 @@ import matplotlib
 
 class Visualize(object):
     
-    def plot_env_grid(): #env_grid, list_of_carriers, show = False):
+    def plot_env_grid(self, env_grid): #env_grid, list_of_carriers, show = False):
         
         """
         Plots a given grid, which is a 2D array of cells.
@@ -33,29 +33,26 @@ class Visualize(object):
         #plot with matplotlib
         #update color hues/shading based on cell data change
     
-        width = 15 #env_grid.width
-        length = 20 #env_grid.width
-        env_grid = np.zeros(shape = (length, width))
-        print(env_grid)
-        env_grid.fill(2)
-        env_grid.astype(int)
-        print(env_grid)
+        height = env_grid.GRID_HEIGHT
+        width = env_grid.GRID_WIDTH
+        Grid = env_grid.GRID
+        print(Grid)
     
-        data = N.zeros((width, length, 3), dtype='f')
+        data = N.zeros((width, height, 3), dtype='f')
         cmap = ['k', 'b', 'g', '0.5', '0.1']
         convert = matplotlib.colors.ColorConverter()
         
         
-        if len(env_grid) != 0:       #- data for a non-empty farm
+        if len(Grid) != 0:
             #for i in env_grid:
             for i in range(0, width):
-                for j in range(0, length):
-                    cellVal = int(env_grid[j, i])
+                for j in range(0, height):
+                    cellVal = int(Grid[j, i])
                     
                     temp = N.array( convert.to_rgb( cmap[cellVal] ) )
                     data[i, j, :] = temp[:]
                 
-        else:                              #- data for empty farm
+        else: 
             pass
         
         
@@ -66,7 +63,7 @@ class Visualize(object):
     
         #- Plot the image, turn off the axes labels, and (maybe) show the plot:    
         ax.imshow(data, interpolation='none',
-                extent=[0, width, 0, length],
+                extent=[0, width, 0, height],
                 zorder=0)
         ax.axis('off')    
         plt.show()
@@ -95,4 +92,4 @@ class Visualize(object):
         #update dot color fade as carrier data changes
         
     
-    plot_env_grid()
+#    plot_env_grid(env_grid)
