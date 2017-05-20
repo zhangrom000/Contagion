@@ -86,5 +86,9 @@ class Grid(object):
         #Run through each carrier and cell, calling update for each carrier and then cell.
     
 from Grid import Grid
+from Visualize import Visualize
 G = Grid()
+G.init()
+V = Visualize()
+V.plot_env_grid(G)
 #G.init()
