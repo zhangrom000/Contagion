@@ -17,10 +17,10 @@ class Grid(object):
     RURAL_POP_RANGE = 1 #Range around initial size
     
     ## Initializing Grid ##
-    CITY_PROB = 0.1 #Chance of placing a city
-    SUBURBAN_PROB = 0.2 #Chance of placing suburban area
-    RURAL_PROB = 0.25 #Chance of placing a rural area
-    BARRIER_PROB = 0.05
+    CITY_PROB = 0.02 #Chance of placing a city
+    SUBURBAN_PROB = 0.05 #Chance of placing suburban area
+    RURAL_PROB = 0.08 #Chance of placing a rural area
+    BARRIER_PROB = 0
     
     CARRIER_PROB = 1 #Chance of placing a carrier agent
     CARRIER_RANGE = 1 #Nunber of agents to place
@@ -36,8 +36,8 @@ class Grid(object):
     BARRIER = 4
     
     # Grid Size #
-    GRID_WIDTH = 40
-    GRID_HEIGHT = 40
+    GRID_WIDTH = 20
+    GRID_HEIGHT = 20
     
     ## Transmission Variables ##
     BASE_INFECTION_PROB = 1 #Base probability of infection
@@ -64,24 +64,27 @@ class Grid(object):
         self.GRID = N.zeros((self.GRID_WIDTH, self.GRID_HEIGHT))
         for x in range(self.GRID_WIDTH):
             for y in range(self.GRID_HEIGHT):
-                rand = N.random.random(4)
+                rand = N.random.random(5)
                 if rand[0] <= self.CITY_PROB:
                     self.GRID[x][y] = self.CITY
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     self.GRID[x][y] = self.SUBURBAN
+                    #Initialize Suburban cell
                 elif rand[2] <= self.RURAL_PROB:
                     self.GRID[x][y] = self.RURAL
+                    #Initialize Rural cell
                 elif rand[3] <= self.BARRIER_PROB:
                     self.GRID[x][y] = self.BARRIER
                 else:
                     self.GRID[x][y] = self.LAND
+                if rand[5] <= self.CARRIER_PROB:
+                    self.addCarrier(x, y)
         print self.GRID
         
-        
-    #def initCarrier():
-        #Initialize the carriers in the grid
-        
+    def addCarrier(x, y):
+        i = 1 # Create and add carriers to this position
+    
     #def updateGrid():
         #Run through each carrier and cell, calling update for each carrier and then cell.
     
