@@ -78,15 +78,15 @@ class Grid(object):
                     self.GRID[x][y] = self.BARRIER
                 else:
                     self.GRID[x][y] = self.LAND
-                if rand[5] <= self.CARRIER_PROB:
+                if rand[4] <= self.CARRIER_PROB:
                     self.addCarrier(x, y)
         print self.GRID
         
-    def addCarrier(x, y):
+    def addCarrier(self, x, y):
         i = 1 # Create and add carriers to this position
     
-    #def updateGrid():
-        #Run through each carrier and cell, calling update for each carrier and then cell.
+    def updateGrid():
+        i = 1#Run through each carrier and cell, calling update for each carrier and then cell.
     
 from Grid import Grid
 from Visualize import Visualize
