@@ -5,7 +5,7 @@ import matplotlib
 
 class Visualize(object):
     
-    def plot_env_grid(self, env_grid): #env_grid, list_of_carriers, show = False):
+    def plot_env_grid(self, env_grid, show = False): #env_grid, list_of_carriers, show = False):
         
         """
         Plots a given grid, which is a 2D array of cells.
@@ -36,23 +36,22 @@ class Visualize(object):
         height = env_grid.GRID_HEIGHT
         width = env_grid.GRID_WIDTH
         Grid = env_grid.GRID
-        print(Grid)
     
         data = N.zeros((width, height, 3), dtype='f')
-        cmap = ['k', 'b', 'g', '0.5', '0.1']
+        # 0 = Land, 1 = City, 2 = Suburban, 3 = Rural, 4 = Barrier
+        cmap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
         convert = matplotlib.colors.ColorConverter()
         
         
-        if len(Grid) != 0:
+        if len(Grid) != 0:       #- data for a non-empty farm
             #for i in env_grid:
             for i in range(0, width):
                 for j in range(0, height):
-                    cellVal = int(Grid[j, i])
-                    
+                    cellVal = int(Grid[j, i])                    
                     temp = N.array( convert.to_rgb( cmap[cellVal] ) )
                     data[i, j, :] = temp[:]
                 
-        else: 
+        else:                              #- data for empty farm
             pass
         
         
@@ -66,10 +65,10 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         ax.axis('off')    
-        plt.show()
+        if show:
+            plt.show()
     
-    
-        #- Return values:    
+        print("Reached!")   
         return fig, ax
     
         
