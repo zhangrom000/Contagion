@@ -116,13 +116,15 @@ class Visualize(object):
         #add color to dots
         #update dot movement/merging as they travel through env_grids
         #update dot color fade as carrier data changes
+        height = gridObj.GRID_HEIGHT
+        width = gridObj.GRID_WIDTH
         
         carriers_x = np.zeros(len(list_of_carriers))
         carriers_y = np.zeros(len(list_of_carriers))
         
         for i in range(len(list_of_carriers)):
-            carriers_x[i] = list_of_carriers[i].x
-            carriers_y[i] = list_of_carriers[i].y
+            carriers_x[i] = width - list_of_carriers[i].x
+            carriers_y[i] = height - list_of_carriers[i].y
         
         plt.scatter(carriers_x, carriers_y, c='y')        
         plt.show()
