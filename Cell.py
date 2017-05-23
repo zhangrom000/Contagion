@@ -107,6 +107,12 @@ class Cell(object):
     """
     infect_probability
     
+    returns the probability that a population will initially be infected as a
+    function of the current population, pollution level, and number of carriers
+    currently in this cell.
+    
+    PRECONDITION: This Cell's population has 0 infected
+    
     """
     def infect_probability(self):
         probability = 0.0
@@ -137,6 +143,10 @@ class Cell(object):
     """
     infect_rate
     
+    returns the number of people in this Cell's population to infect in the 
+    current time step as a function of polliution, number of infected, and
+    affluence.
+    
     """    
     def infect_rate(self):
         numToInfect = int((self.POLLUTION * 100) * (self.TOTAL_INFECTED) / self.affluence * 100)
@@ -144,12 +154,17 @@ class Cell(object):
     """
     recover_rate
     
+    returns a percentage of infected to recover at the time step that is 
+    currently "recovery_days" old 
+    
     """     
     def recover_rate(self):
         pctRecovered = ((10 * self.affluence) * (10 * self.POLLUTION)) / 100
         return pctRecovered 
     """
     carriers_In_Cell
+    
+    returns the total of numInSwarm of all Carriers in this cell
     
     PRECONDITION: All carriers contained in self.carrierList are all carriers 
                     whose x-y coordinates are identical to this Cell's x-y 
