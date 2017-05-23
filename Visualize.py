@@ -197,8 +197,8 @@ class Visualize(object):
         carriers_y = np.zeros(len(list_of_carriers))
         
         for i in range(len(list_of_carriers)):
-            carriers_x[i] = list_of_carriers[i].x
-            carriers_y[i] = width - list_of_carriers[i].y
+            carriers_x[i] = list_of_carriers[i].x + 0.5
+            carriers_y[i] = width - list_of_carriers[i].y - 0.5
         
         scat = plt.scatter(carriers_x, carriers_y, c='y')        
         plt.show()
