@@ -90,7 +90,6 @@ class Grid(object):
         hold.x = x
         hold.y = y
         self.CARRIERS.append(hold)
-        print str(hold.x) + " " + str(hold.y)
     
     def updateGrid(self):
         for i in range(len(self.CARRIERS)):
@@ -99,6 +98,8 @@ class Grid(object):
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
                 self.GRID[i][j].update_population()
+                
+        return self.GRID
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
