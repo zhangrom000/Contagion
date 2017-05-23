@@ -18,30 +18,29 @@ class Cell(object):
         if (density == 'City'):
             self.ENV_TYPE = 1
             self.INITIAL_POP = 1000
-            self.POLLUTION = 0.9 #The higher the pollution, the faster contagion spread
         elif(density == 'Suburban'):
             self.ENV_TYPE = 2
             self.INITIAL_POP = 100
-            self.POLLUTION = 0.5
+            
         elif(density == 'Rural'):
             self.ENV_TYPE = 3
             self.INITIAL_POP = 10
-            self.POLLUTION = 0.25
+            
         elif(density == 'Land'):
             self.ENV_TYPE = 0
             self.INITIAL_POP = 0
-            self.POLLUTION = 0.0
+            
         else:
             self.INITIAL_POP = 0
-            self.POLLUTION = 0.0
-        
+            
+            
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
         self.TOTAL_POP = self.INITIAL_POP
-        self.CLEANLINESS = self.TOTAL_POP * self.POLLUTION
-        
+        self.AFFLUENCE = rand.random()
+        self.POLLUTION = rand.random()
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
-        self.RECOVER_PERCENTAGE = 0.05 #Percentage of population recovered after end of lifespan
+        self.RECOVER_PROBABILITY = 0.05 #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0#Total Dead Population of cell
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
@@ -49,6 +48,9 @@ class Cell(object):
         self.INFECTED_ARR = [] #Keeps track of the number of infected per time step
         self.carrierList = carrierList
         self.currentTimeStep = 0
+        
+        self.recovery_days = 7
+        
 
     """
     update_population:
@@ -60,34 +62,51 @@ class Cell(object):
         This cell's pollution value 
     
     """
-    def update_population(self, carriersInGrid):
+    def update_population(self):
         """
         PSEUDOCODE: 
         Check environment value, agent state at the coordinate of this Cell 
         in order to determine incrementation of infected population within this
         time step. Increment number of dead based on infected lifespan. 
         """
-        
-        if self.TOTAL_INFECTED == 0:
-            for carrier in carriersInGrid:
-                if (carrier.x == self.x and carrier.y == self.y):
-                    #compare random value between 1 and 0 to infect_probability
-                    #if rand val is less than probability, 
-                    # TOTAL_INFECTED ++
-                    randVal = rand.random()
-                    if (randVal < self.infect_probability):
-                        self.TOTAL_INFECTED += 1
+        if (self.TOTAL_POPULATION >= self.TOTAL_RECOVERED):
+            if (self.TOTAL_INFECTED == 0):
+                for carrier in self.carrierList:
+                    if (carrier.x == self.x and carrier.y == self.y):
+                        #compare random value between 1 and 0 to infect_probability
+                        #if rand val is less than probability, 
+                        # TOTAL_INFECTED ++
+                        randVal = rand.random()
+                        if (randVal < self.infect_probability()):
+                            self.TOTAL_INFECTED += 1
+                        
+            elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POPULATION):
+                #Infect current population based on infect_rate
+                self.TOTAL_INFECTED += self.infect_rate()    
+            
+            numRecovered = 0
+            if (self.currentTimeStep >= self.recovery_days):
+                randVal = rand.random()
+                if (randVal < self.RECOVER_PROBABILITY):
+                    numRecovered = int(self.infectedArr[self.currentTimeStep - self.recovery_days] * self.recover_rate)
+                    self.TOTAL_RECOVERED += numRecovered
+                    self.TOTAL_INFECTED -= numRecovered
                     
-        elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POPULATION):
-            randVal = rand.random()
-            #generate random value 1-0, 
-            #if value < infect_probability, increment numInfected by Arbitrary amt
-            if (randVal < self.infect_probability):
-                self.TOTAL_INFECTED += 2
-        else:
+            if (self.currentTimeStep >= self.LIFESPAN):
+                numDead = int(self.infectedArr[self.currentTimeStep - self.LIFESPAN] - numRecovered)
+                self.TOTAL_DEAD += numDead
+                self.TOTAL_INFECTED -= numDead
+                self.TOTAL_POPULATION -= numDead
+                
+                
             self.INFECTED_ARR[self.currentTimeStep] = self.TOTAL_INFECTED
-            self.arrayIterator += 1
+            self.currentTimeStep += 1
+        else:
+            self.quarantined = 'true'
+    """
+    infect_probability
     
+    """
     def infect_probability(self):
         probability = 0.0
         if  self.TOTAL_POPULATION > 1000:
@@ -107,4 +126,36 @@ class Cell(object):
         else: 
             probability += 0.05
             
+        if (self.carriers_In_cell > 100):
+            probability *= 1.25
+        else:
+            probability *= 1.1
+        
         return probability
+        
+    """
+    infect_rate
+    
+    """    
+    def infect_rate(self):
+        numToInfect = int((self.POLLUTION * 100) * (self.TOTAL_INFECTED) / self.affluence * 100)
+        return numToInfect
+    """
+    recover_rate
+    
+    """     
+    def recover_rate(self):
+        pctRecovered = ((10 * self.affluence) * (10 * self.POLLUTION)) / 100
+        return pctRecovered 
+    """
+    carriers_In_Cell
+    
+    PRECONDITION: All carriers contained in self.carrierList are all carriers 
+                    whose x-y coordinates are identical to this Cell's x-y 
+                    coordinates
+    """ 
+    def carriers_In_Cell(self):
+        totalCarriers = 0
+        for c in self.carrierList:
+            totalCarriers += c.NUM_IN_SWARM
+        return totalCarriers
