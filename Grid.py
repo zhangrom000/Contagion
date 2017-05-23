@@ -93,7 +93,7 @@ class Grid(object):
     
     def updateGrid(self):
         for i in range(len(self.CARRIERS)):
-            self.CARRIERS[i].update(self.GRID)
+            self.CARRIERS[i].update(self)
             
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
