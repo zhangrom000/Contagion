@@ -52,7 +52,7 @@ class Visualize(object):
                            
                     # Setup the Environment color grid
                     temp = N.array( convert.to_rgb( cEnvMap[cell.ENV_TYPE] ) )
-                    if len(cell.CARRIER_LIST) > 0: temp = N.array( convert.to_rgb( cCarMap[0] ) )
+                    if len(cell.carrierList) > 0: temp = N.array( convert.to_rgb( cCarMap[0] ) )
                     dataEnv[i, j, :] = temp[:]
 
                     # Setup the Population color grid
