@@ -8,7 +8,7 @@ import numpy as N
 from Grid import Grid
 from Visualize import Visualize
 
-TIMELINE = 2 #Time of the model
+TIMELINE = 3 #Time of the model
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 

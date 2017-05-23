@@ -45,7 +45,7 @@ class Cell(object):
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
         self.QUARANTINED = quarantined #Whether or not this cell is blocked off from contagion
-        self.INFECTED_ARR = [] #Keeps track of the number of infected per time step
+        self.INFECTED_ARR = np.zeros(self.LIFESPAN) #Keeps track of the number of infected per time step
         self.carrierList = carrierList
         self.currentTimeStep = 0
         
@@ -69,7 +69,8 @@ class Cell(object):
         in order to determine incrementation of infected population within this
         time step. Increment number of dead based on infected lifespan. 
         """
-        if (self.TOTAL_POPULATION >= self.TOTAL_RECOVERED):
+        
+        if (self.TOTAL_POP >= self.TOTAL_RECOVERED):
             if (self.TOTAL_INFECTED == 0):
                 for carrier in self.carrierList:
                     if (carrier.x == self.x and carrier.y == self.y):
@@ -80,7 +81,7 @@ class Cell(object):
                         if (randVal < self.infect_probability()):
                             self.TOTAL_INFECTED += 1
                         
-            elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POPULATION):
+            elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POP):
                 #Infect current population based on infect_rate
                 self.TOTAL_INFECTED += self.infect_rate()    
             
@@ -88,18 +89,18 @@ class Cell(object):
             if (self.currentTimeStep >= self.recovery_days):
                 randVal = rand.random()
                 if (randVal < self.RECOVER_PROBABILITY):
-                    numRecovered = int(self.infectedArr[self.currentTimeStep - self.recovery_days] * self.recover_rate)
+                    numRecovered = int(self.infectedArr[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate)
                     self.TOTAL_RECOVERED += numRecovered
                     self.TOTAL_INFECTED -= numRecovered
                     
             if (self.currentTimeStep >= self.LIFESPAN):
-                numDead = int(self.infectedArr[self.currentTimeStep - self.LIFESPAN] - numRecovered)
+                numDead = int(self.infectedArr[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)
                 self.TOTAL_DEAD += numDead
                 self.TOTAL_INFECTED -= numDead
-                self.TOTAL_POPULATION -= numDead
+                self.TOTAL_POP -= numDead
                 
                 
-            self.INFECTED_ARR[self.currentTimeStep] = self.TOTAL_INFECTED
+            self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] = self.TOTAL_INFECTED
             self.currentTimeStep += 1
         else:
             self.quarantined = 'true'
@@ -109,11 +110,11 @@ class Cell(object):
     """
     def infect_probability(self):
         probability = 0.0
-        if  self.TOTAL_POPULATION > 1000:
+        if  self.TOTAL_POP > 1000:
             probability += 0.5
-        elif self.TOTAL_POPULATION < 1000 and self.TOTAL_POPULATION > 100:
+        elif self.TOTAL_POP < 1000 and self.TOTAL_POP > 100:
             probability += 0.35
-        elif self.TOTAL_POPULATION < 100 and self.TOTAL_POPULATION > 10:
+        elif self.TOTAL_POP < 100 and self.TOTAL_POP > 10:
             probability += 0.2
         else:
             probability += 0.15
