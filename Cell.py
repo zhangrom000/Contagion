@@ -13,7 +13,7 @@ class Cell(object):
     
     ENV_TYPE = 4
     
-    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False'):
+    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False', carrierList = []):
         #### Variables ####
         if (density == 'City'):
             self.ENV_TYPE = 1
@@ -47,7 +47,8 @@ class Cell(object):
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
         self.QUARANTINED = quarantined #Whether or not this cell is blocked off from contagion
         self.INFECTED_ARR = [] #Keeps track of the number of infected per time step
-        self.arrayIterator = 0
+        self.carrierList = carrierList
+        self.currentTimeStep = 0
 
     """
     update_population:
@@ -84,7 +85,7 @@ class Cell(object):
             if (randVal < self.infect_probability):
                 self.TOTAL_INFECTED += 2
         else:
-            self.INFECTED_ARR[self.arrayIterator] = self.TOTAL_INFECTED
+            self.INFECTED_ARR[self.currentTimeStep] = self.TOTAL_INFECTED
             self.arrayIterator += 1
     
     def infect_probability(self):
