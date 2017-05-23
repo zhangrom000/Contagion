@@ -1,7 +1,7 @@
 import numpy as N
 
 from Cell import Cell
-#from Carrier import carrier
+from Carrier import Carrier
 
 class Grid(object):
     #### Variables ####
@@ -57,6 +57,9 @@ class Grid(object):
         
     def init(self):
         self.initGrid()
+        hold = Carrier()
+        global CARRIERS 
+        CARRIERS = [hold]
         #Initialize grid, calls other initializations
         
     def initGrid(self):
@@ -90,7 +93,7 @@ class Grid(object):
         i = 1 # Create and add carriers to this position
     
     def updateGrid(self):
-        i = 1#Run through each carrier and cell, calling update for each carrier and then cell.
+        CARRIERS[0].update()
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
