@@ -62,17 +62,17 @@ class Cell(object):
         This cell's pollution value 
     
     """
-    def update_population(self):
+    def update_population(self, carriers):
         """
         PSEUDOCODE: 
         Check environment value, agent state at the coordinate of this Cell 
         in order to determine incrementation of infected population within this
         time step. Increment number of dead based on infected lifespan. 
         """
-        
+        self.carrierList = carriers
         if (self.TOTAL_POP >= self.TOTAL_RECOVERED):
             if (self.TOTAL_INFECTED == 0):
-                for carrier in self.carrierList:
+                for carrier in self.carrierList: 
                     if (carrier.x == self.x and carrier.y == self.y):
                         #compare random value between 1 and 0 to infect_probability
                         #if rand val is less than probability, 
@@ -83,18 +83,20 @@ class Cell(object):
                         
             elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POP):
                 #Infect current population based on infect_rate
-                self.TOTAL_INFECTED += self.infect_rate()    
+                self.TOTAL_INFECTED += self.infect_rate()
+                if (self.TOTAL_INFECTED > self.TOTAL_POP):
+                     self.TOTAL_INFECTED = self.TOTAL_POP   
             
             numRecovered = 0
             if (self.currentTimeStep >= self.recovery_days):
                 randVal = rand.random()
                 if (randVal < self.RECOVER_PROBABILITY):
-                    numRecovered = int(self.infectedArr[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate)
+                    numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate())
                     self.TOTAL_RECOVERED += numRecovered
                     self.TOTAL_INFECTED -= numRecovered
                     
             if (self.currentTimeStep >= self.LIFESPAN):
-                numDead = int(self.infectedArr[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)
+                numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)
                 self.TOTAL_DEAD += numDead
                 self.TOTAL_INFECTED -= numDead
                 self.TOTAL_POP -= numDead
@@ -133,7 +135,7 @@ class Cell(object):
         else: 
             probability += 0.05
             
-        if (self.carriers_In_cell > 100):
+        if (self.carriers_In_Cell() > 100):
             probability *= 1.25
         else:
             probability *= 1.1
@@ -149,7 +151,7 @@ class Cell(object):
     
     """    
     def infect_rate(self):
-        numToInfect = int((self.POLLUTION * 100) * (self.TOTAL_INFECTED) / self.affluence * 100)
+        numToInfect = int((self.POLLUTION * 100) * (self.TOTAL_INFECTED) / self.AFFLUENCE * 100)
         return numToInfect
     """
     recover_rate
@@ -159,7 +161,7 @@ class Cell(object):
     
     """     
     def recover_rate(self):
-        pctRecovered = ((10 * self.affluence) * (10 * self.POLLUTION)) / 100
+        pctRecovered = ((10 * self.AFFLUENCE) * (10 * self.POLLUTION)) / 100
         return pctRecovered 
     """
     carriers_In_Cell

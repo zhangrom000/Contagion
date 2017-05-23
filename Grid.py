@@ -17,7 +17,8 @@ class Grid(object):
     RURAL_POP_RANGE = 1 #Range around initial size
     
     ## Initializing Grid ##
-    CITY_PROB = 0.02 #Chance of placing a city
+    CITY_PROB = 1 # Test value
+    #CITY_PROB = 0.02 #Chance of placing a city
     SUBURBAN_PROB = 0.05 #Chance of placing suburban area
     RURAL_PROB = 0.08 #Chance of placing a rural area
     BARRIER_PROB = 0
@@ -97,7 +98,7 @@ class Grid(object):
             
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
-                self.GRID[i][j].update_population()
+                self.GRID[i][j].update_population(self.CARRIERS)
                 
         return self.GRID
     
