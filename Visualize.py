@@ -65,7 +65,7 @@ class Visualize(object):
                     # Setup the Population color grid
                     if cell.TOTAL_POP == 0: popRatio = 0
                     else: popRatio = cell.TOTAL_DEAD / cell.TOTAL_POP
-                    popColor = int(popRatio * 9) # convert pop ratio to integer
+                    popColor = int(popRatio * 4) # convert pop ratio to integer
                     temp = N.array( convert.to_rgb( cPopMap[popColor] ) ) # grab the hex code belonging to that pop ratio
                     dataPop[i, j, :] = temp[:] 
 
