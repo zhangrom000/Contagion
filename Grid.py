@@ -1,6 +1,6 @@
 import numpy as N
 
-#from Cell import cell
+from Cell import Cell
 #from Carrier import carrier
 
 class Grid(object):
@@ -29,11 +29,11 @@ class Grid(object):
     POLLUTION_RANGE = 1 #Range of pollution
     
     # Cell Type Values #
-    LAND = 0
-    CITY = 1
-    SUBURBAN = 2
-    RURAL = 3
-    BARRIER = 4
+    #LAND = 0
+    #CITY = 1
+    #SUBURBAN = 2
+    #RURAL = 3
+    #BARRIER = 4
     
     # Grid Size #
     GRID_WIDTH = 20
@@ -51,7 +51,7 @@ class Grid(object):
     QUARANTINED_MIN = 1 #Number of living needed to maintain Quarantine
     QUARANTINE_MAX = 1 #Number of infected to implement Quarantine
     
-    GRID = [] #A grid of cells
+    GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     CARRIERS = [] #An array of all the carriers
         
         
@@ -61,26 +61,30 @@ class Grid(object):
         
     def initGrid(self):
         #Initialize the grid and cells
-        self.GRID = N.zeros((self.GRID_WIDTH, self.GRID_HEIGHT))
         for x in range(self.GRID_WIDTH):
             for y in range(self.GRID_HEIGHT):
                 rand = N.random.random(5)
                 if rand[0] <= self.CITY_PROB:
-                    self.GRID[x][y] = self.CITY
+                    #self.GRID[x][y] = self.CITY
+                    self.GRID[x][y]= Cell(x, y, 'City')
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
-                    self.GRID[x][y] = self.SUBURBAN
+                    #self.GRID[x][y] = self.SUBURBAN
+                    self.GRID[x][y]= Cell(x, y, 'Suburban')
                     #Initialize Suburban cell
                 elif rand[2] <= self.RURAL_PROB:
-                    self.GRID[x][y] = self.RURAL
+                    #self.GRID[x][y] = self.RURAL
+                    self.GRID[x][y]= Cell(x, y, 'Rural')
                     #Initialize Rural cell
                 elif rand[3] <= self.BARRIER_PROB:
-                    self.GRID[x][y] = self.BARRIER
+                    #self.GRID[x][y] = self.BARRIER
+                    self.GRID[x][y]= Cell(x, y, 'Barrier')
                 else:
-                    self.GRID[x][y] = self.LAND
+                    #self.GRID[x][y] = self.LAND
+                    self.GRID[x][y]= Cell(x, y, 'Land')
                 if rand[4] <= self.CARRIER_PROB:
                     self.addCarrier(x, y)
-        print self.GRID
+        print self.GRID    
         
     def addCarrier(self, x, y):
         i = 1 # Create and add carriers to this position
@@ -88,10 +92,13 @@ class Grid(object):
     def updateGrid():
         i = 1#Run through each carrier and cell, calling update for each carrier and then cell.
     
+    def getCell(self, xy_coords=[]):
+        return self.GRID[xy_coords[0]][xy_coords[1]]
+    
 from Grid import Grid
 from Visualize import Visualize
 G = Grid()
 G.init()
 V = Visualize()
-V.plot_env_grid(G)
+V.plot_all(G)
 #G.init()

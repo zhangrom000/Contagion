@@ -12,18 +12,24 @@ the simulation.
 """
 class Cell(object):
     
-    def __init__(self,xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False'):
+    ENV_TYPE = 4
+    
+    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False'):
         #### Variables ####
-        if (density == 'Urban'):
+        if (density == 'City'):
+            self.ENV_TYPE = 1
             self.TOTAL_POP = 1000
             self.POLLUTION = 0.9 #The higher the pollution, the faster contagion spread
         elif(density == 'Suburban'):
+            self.ENV_TYPE = 2
             self.TOTAL_POP = 100
             self.POLLUTION = 0.5
         elif(density == 'Rural'):
+            self.ENV_TYPE = 3
             self.TOTAL_POP = 10
             self.POLLUTION = 0.25
         elif(density == 'Land'):
+            self.ENV_TYPE = 0
             self.TOTAL_POP = 0
             self.POLLUTION = 0.0
         else:
