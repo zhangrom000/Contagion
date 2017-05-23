@@ -2,7 +2,6 @@ import numpy as np
 import numpy.random as rand
 """
 Class Cell
-
 Represents a population of people and corresponding population density type 
 encapsulated in a single X-Y coordinate on the overall grid.
 A Cell with a population contains metrics of the population such as number of 
@@ -39,6 +38,7 @@ class Cell(object):
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
         self.TOTAL_POP = self.INITIAL_POP
+        self.CLEANLINESS = self.TOTAL_POP * self.POLLUTION
         
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
         self.RECOVER_PERCENTAGE = 0.05 #Percentage of population recovered after end of lifespan
