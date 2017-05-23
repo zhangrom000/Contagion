@@ -38,7 +38,7 @@ class Carrier(object):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE):
             self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + self.POP_GROWTH_RATE)
             
-        self.Move(self, env_grid)
+        self.Move(env_grid)
         pass
     
     
