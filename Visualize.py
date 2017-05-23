@@ -41,21 +41,23 @@ class Visualize(object):
         Grid = gridObj.GRID        
         dataEnv = N.zeros((width, height, 3), dtype='f')
         dataPop = N.zeros((width, height, 3), dtype='f')
+        dataInf = N.zeros((width, height, 3), dtype='f')
         # 0 = Land, 1 = City, 2 = Suburban, 3 = Rural, 4 = Barrier
         cmap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
         # Hex Gradient in 10 steps from green to red
-        cPopMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
+        cInfMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
+        # Hex Gradient in 5 steps from white to black
+        cPopMap = ['#FFFFFF', '#BFBFBF', '#7F7F7F', '#3F3F3F', '#000000']
         convert = matplotlib.colors.ColorConverter()
         
-        
+        # Setup the Environment color grid
         if len(Grid) != 0:
             #for i in env_grid:
             for i in range(0, width):
                 for j in range(0, height):
-                    cellVal = int(Grid[j, i])                    
-                    temp = N.array( convert.to_rgb( cmap[cellVal] ) )
-                    dataEnv[i, j, :] = temp[:]
-                
+                    cell = Grid[j, i]                  
+                    temp = N.array( convert.to_rgb( cmap[cell.ENV_TYPE] ) )
+                    dataEnv[i, j, :] = temp[:]               
         else: # error catch for empty grid
             pass
 
@@ -64,21 +66,36 @@ class Visualize(object):
             #for i in env_grid:
             for i in range(0, width):
                 for j in range(0, height):
-                    cell = Grid[j, i]
-                    popRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
+                    cell = Grid[j, i]                  
+                    if cell.TOTAL_POP == 0: popRatio = 0
+                    else: popRatio = cell.TOTAL_DEAD / cell.TOTAL_POP
+
                     popColor = int(popRatio * 9) # convert pop ratio to integer
                     temp = N.array( convert.to_rgb( cPopMap[popColor] ) ) # grab the hex code belonging to that pop ratio
-                    dataPop[i, j, :] = temp[:]
-                
+                    dataPop[i, j, :] = temp[:]  
+        else: # error catch for empty grid
+            pass
+            
+        # Setup the Infected color grid
+        if len(Grid) != 0:
+            #for i in env_grid:
+            for i in range(0, width):
+                for j in range(0, height):
+                    cell = Grid[j, i]
+                    if cell.TOTAL_POP == 0: infRatio = 0
+                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
+
+                    infColor = int(infRatio * 9) # convert inf ratio to integer
+                    temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
+                    dataInf[i, j, :] = temp[:]                
         else: # error catch for empty grid
             pass
         
         
         #- Create figure and axes objects:        
-        f, axarr = plt.subplots(1, 2) 
+        f, axarr = plt.subplots(1, 3)     
     
-    
-        #- Plot the image, turn off the axes labels, and (maybe) show the plot:    
+        #- Plot each grid    
         axarr[0].imshow(dataEnv, interpolation='none',
                 extent=[0, width, 0, height],
                 zorder=0)
@@ -91,6 +108,13 @@ class Visualize(object):
                 zorder=0)
         axarr[1].axis('off')    
         axarr[1].set_title("Population Grid") 
+
+
+        axarr[2].imshow(dataInf, interpolation='none',
+                extent=[0, width, 0, height],
+                zorder=0)
+        axarr[2].axis('off')    
+        axarr[2].set_title("Infected Grid") 
 
         plt.show()
         
