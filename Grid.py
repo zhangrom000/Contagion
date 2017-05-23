@@ -87,7 +87,10 @@ class Grid(object):
         
     def addCarrier(self, x, y):
         hold = Carrier()
+        hold.x = x
+        hold.y = y
         self.CARRIERS.append(hold)
+        print str(hold.x) + " " + str(hold.y)
     
     def updateGrid(self):
         for i in range(len(self.CARRIERS)):

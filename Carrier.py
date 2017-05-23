@@ -52,19 +52,19 @@ class Carrier(object):
             possible_moves = []
         
             if (self.NORTH[1] > 0 and 
-                env_grid.getCell(self.NORTH).TOTAL_POP >
+                env_grid.getCell(self.NORTH).TOTAL_POP >=
                 env_grid.getCell([self.x, self.y]).TOTAL_POP):
                 possible_moves.append(self.NORTH)
             if (self.EAST[0] < env_grid.GRID_WIDTH and 
-                env_grid.getCell(self.EAST).TOTAL_POP >
+                env_grid.getCell(self.EAST).TOTAL_POP >=
                 env_grid.getCell([self.x, self.y]).TOTAL_POP):
                 possible_moves.append(self.EAST)
             if (self.SOUTH[1] < env_grid.GRID_HEIGHT and 
-                env_grid.getCell(self.SOUTH).TOTAL_POP >
+                env_grid.getCell(self.SOUTH).TOTAL_POP >=
                 env_grid.getCell([self.x, self.y]).TOTAL_POP):
                 possible_moves.append(self.SOUTH)
             if (self.WEST[0] > 0 and 
-                env_grid.getCell(self.WEST).TOTAL_POP >
+                env_grid.getCell(self.WEST).TOTAL_POP >=
                 env_grid.getCell([self.x, self.y]).TOTAL_POP):
                 possible_moves.append(self.WEST)
             
