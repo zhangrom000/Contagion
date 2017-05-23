@@ -89,16 +89,16 @@ class Grid(object):
     def addCarrier(self, x, y):
         i = 1 # Create and add carriers to this position
     
-    def updateGrid():
+    def updateGrid(self):
         i = 1#Run through each carrier and cell, calling update for each carrier and then cell.
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
     
-from Grid import Grid
-from Visualize import Visualize
-G = Grid()
-G.init()
-V = Visualize()
-V.plot_all(G)
+#from Grid import Grid
+#from Visualize import Visualize
+#G = Grid()
+#G.init()
+#V = Visualize()
+#V.plot_all(G)
 #G.init()
