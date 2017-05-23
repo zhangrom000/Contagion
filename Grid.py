@@ -58,7 +58,7 @@ class Grid(object):
     def init(self):
         self.initGrid()
         hold = Carrier()
-        CARRIERS = [hold]
+        self.CARRIERS = [hold]
         #Initialize grid, calls other initializations
         
     def initGrid(self):
@@ -92,7 +92,7 @@ class Grid(object):
         i = 1 # Create and add carriers to this position
     
     def updateGrid(self):
-        CARRIERS[0].update(GRID)
+        self.CARRIERS[0].update(self.GRID)
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
