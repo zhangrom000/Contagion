@@ -18,26 +18,27 @@ class Cell(object):
         #### Variables ####
         if (density == 'City'):
             self.ENV_TYPE = 1
-            self.TOTAL_POP = 1000
+            self.INITIAL_POP = 1000
             self.POLLUTION = 0.9 #The higher the pollution, the faster contagion spread
         elif(density == 'Suburban'):
             self.ENV_TYPE = 2
-            self.TOTAL_POP = 100
+            self.INITIAL_POP = 100
             self.POLLUTION = 0.5
         elif(density == 'Rural'):
             self.ENV_TYPE = 3
-            self.TOTAL_POP = 10
+            self.INITIAL_POP = 10
             self.POLLUTION = 0.25
         elif(density == 'Land'):
             self.ENV_TYPE = 0
-            self.TOTAL_POP = 0
+            self.INITIAL_POP = 0
             self.POLLUTION = 0.0
         else:
-            self.TOTAL_POP = 0
+            self.INITIAL_POP = 0
             self.POLLUTION = 0.0
-            
+        
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
+        self.TOTAL_POP = self.INITIAL_POP
         
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
         self.RECOVER_PERCENTAGE = 0.05 #Percentage of population recovered after end of lifespan
