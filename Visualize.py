@@ -27,15 +27,6 @@ class Visualize(object):
         
     def plot_all(self, gridObj, show = True):
         
-        # Below is me trying to figure out how to split this method into different functions
-        #     So far havent gotten them to work. 
-        #envFig, envAx = plt.subplots()  
-        #popFig, popAx = self.plot_pop_grid(gridObj, False)
-        #envFig, envAx = self.plot_env_grid(gridObj, False)
-        #f, axarr = plt.subplots(2)
-        #envFig, (envAx, popAx) = plt.subplots(2, sharex=True, sharey=True)        
-        #popFig, popAx = plt.subplots()
-        
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
         Grid = gridObj.GRID        
@@ -43,11 +34,12 @@ class Visualize(object):
         dataPop = N.zeros((width, height, 3), dtype='f')
         dataInf = N.zeros((width, height, 3), dtype='f')
         # 0 = Land, 1 = City, 2 = Suburban, 3 = Rural, 4 = Barrier
-        cEnvmap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
+        cEnvMap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
         # Hex Gradient in 10 steps from green to red
         cInfMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
         # Hex Gradient in 5 steps from white to black
         cPopMap = ['#FFFFFF', '#BFBFBF', '#7F7F7F', '#3F3F3F', '#000000']
+        cCarMap = ['#FFFF00'] # Carrier gradient - TODO
         convert = matplotlib.colors.ColorConverter()
         
         # Setup the Environment color grid
@@ -59,8 +51,9 @@ class Visualize(object):
                     cell = Grid[j, i]
                            
                     # Setup the Environment color grid
-                    temp = N.array( convert.to_rgb( cEnvmap[cell.ENV_TYPE] ) )
-                    dataEnv[i, j, :] = temp[:] 
+                    temp = N.array( convert.to_rgb( cEnvMap[cell.ENV_TYPE] ) )
+                    if len(cell.CARRIER_LIST) > 0: temp = N.array( convert.to_rgb( cCarMap[0] ) )
+                    dataEnv[i, j, :] = temp[:]
 
                     # Setup the Population color grid
                     if cell.INITIAL_POP == 0: popRatio = 0
