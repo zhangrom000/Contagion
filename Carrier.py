@@ -71,7 +71,7 @@ class Carrier(object):
             possible_moves = np.array(possible_moves)
         
             if (np.size(possible_moves) > 0):
-                move = np.random.choice(possible_moves)
+                move = possible_moves[np.random.choice(possible_moves.shape[0])]
                 self.x = move[0]
                 self.y = move[1]
         else:
