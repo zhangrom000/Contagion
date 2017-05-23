@@ -22,7 +22,7 @@ class Grid(object):
     RURAL_PROB = 0.08 #Chance of placing a rural area
     BARRIER_PROB = 0
     
-    CARRIER_PROB = 1 #Chance of placing a carrier agent
+    CARRIER_PROB = 0.05 #Chance of placing a carrier agent
     CARRIER_RANGE = 1 #Nunber of agents to place
     
     POLLUTION_BASE = 1 #Initialize cell polution level
@@ -57,8 +57,6 @@ class Grid(object):
         
     def init(self):
         self.initGrid()
-        hold = Carrier()
-        self.CARRIERS = [hold]
         #Initialize grid, calls other initializations
         
     def initGrid(self):
@@ -85,11 +83,11 @@ class Grid(object):
                     #self.GRID[x][y] = self.LAND
                     self.GRID[x][y]= Cell(x, y, 'Land')
                 if rand[4] <= self.CARRIER_PROB:
-                    self.addCarrier(x, y)
-        print self.GRID    
+                    self.addCarrier(x, y)  
         
     def addCarrier(self, x, y):
-        i = 1 # Create and add carriers to this position
+        hold = Carrier()
+        self.CARRIERS.append(hold)
     
     def updateGrid(self):
         for i in range(len(self.CARRIERS)):
