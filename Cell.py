@@ -69,7 +69,7 @@ class Cell(object):
         
         if self.TOTAL_INFECTED == 0:
             for carrier in carriersInGrid:
-                if (carrier.x == self.xPos and carrier.y == self.ypos):
+                if (carrier.x == self.x and carrier.y == self.y):
                     #compare random value between 1 and 0 to infect_probability
                     #if rand val is less than probability, 
                     # TOTAL_INFECTED ++

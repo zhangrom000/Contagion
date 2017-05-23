@@ -92,7 +92,13 @@ class Grid(object):
         i = 1 # Create and add carriers to this position
     
     def updateGrid(self):
-        self.CARRIERS[0].update(self.GRID)
+        for i in range(len(self.CARRIERS)):
+            #self.CARRIERS[i].update(self.GRID)
+            temp = i
+            
+        for i in range(self.GRID_WIDTH):
+            for j in range(self.GRID_HEIGHT):
+                self.GRID[i][j].update_population(self.CARRIERS)
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
