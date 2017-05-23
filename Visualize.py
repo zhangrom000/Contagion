@@ -100,7 +100,7 @@ class Visualize(object):
 
         plt.show()
         
-    def plot_top_grid(top_grid, list_of_carriers=[]):
+    def plot_carriers(self, gridObj, list_of_carriers=[], show=True):
         """
         Carriers are represented as a dot that moves around cells.
         Carrier dots grow in size depending on population of swarm.        
@@ -111,10 +111,18 @@ class Visualize(object):
             
         Dot fades from white to yellow depending on infected amount.
         """
-        
         #takes top_grid and overlay on top of all env_grids
         #takes list_of_carriers and represents them as dots
         #add color to dots
         #update dot movement/merging as they travel through env_grids
         #update dot color fade as carrier data changes
         
+        carriers_x = np.zeros(len(list_of_carriers))
+        carriers_y = np.zeros(len(list_of_carriers))
+        
+        for i in range(len(list_of_carriers)):
+            carriers_x[i] = list_of_carriers[i].x
+            carriers_y[i] = list_of_carriers[i].y
+        
+        plt.scatter(carriers_x, carriers_y, c='y')        
+        plt.show()

@@ -25,4 +25,4 @@ for dt in range(TIME):
     grid = G.updateGrid()
     gridArr.append(grid)
     V.plot_all(G)
-
+    V.plot_carriers(G, G.CARRIERS)
