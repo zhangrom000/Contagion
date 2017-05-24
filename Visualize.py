@@ -39,7 +39,6 @@ class Visualize(object):
         cInfMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
         # Hex Gradient in 5 steps from white to black
         cPopMap = ['#FFFFFF', '#BFBFBF', '#7F7F7F', '#3F3F3F', '#000000']
-        cCarMap = ['#FFFF00'] # Carrier gradient - TODO
         convert = matplotlib.colors.ColorConverter()
         
         # Setup the Environment color grid
@@ -96,7 +95,19 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         axarr[2].axis('off')    
-        axarr[2].set_title("Infected Grid") 
+        axarr[2].set_title("Infected Grid")
+        
+        # Create Legend, need to split it up
+        plt.plot([], 'ks', label="City")
+        plt.plot([], 'ys', label="Suburban")
+        plt.plot([], 'gs', label="Land")        
+        plt.plot([], 'ws', label="100% Alive")
+        plt.plot([], 'ks', label="100% Dead")
+        plt.plot([], 'gs', label="Healthy")
+        plt.plot([], 'rs', label="Infected")
+        plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+
+        f.canvas.set_window_title('Contagion')
         
         plt.ion()
         plt.show()
@@ -134,10 +145,11 @@ class Visualize(object):
                     dataEnv[i, j, :] = temp[:]
 
                     # Setup the Population color grid
-                    if cell.INITIAL_POP == 0: popRatio = 0
+                    if cell.INITIAL_POP == 0: popRatio = 4
                     else: popRatio = cell.TOTAL_DEAD / cell.INITIAL_POP
+                    if cell.TOTAL_DEAD != 0: print(str(cell.TOTAL_DEAD) + " dead and initial: " + str(cell.INITIAL_POP))
                     popColor = int(popRatio * 4) # convert pop ratio to integer
-                    if popColor > 4: popColor = 4
+                    if popColor > 4 or popColor < 0: popColor = 4
                     temp = N.array( convert.to_rgb( cPopMap[popColor] ) ) # grab the hex code belonging to that pop ratio
                     dataPop[i, j, :] = temp[:] 
 
@@ -146,7 +158,7 @@ class Visualize(object):
                     if cell.TOTAL_POP == 0: infRatio = 0
                     else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
                     infColor = int(infRatio * 9) # convert inf ratio to integer
-                    if infColor > 9: infColor = 9
+                    if infColor > 9 or infColor < 0: infColor = 9
                     temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
                     dataInf[i, j, :] = temp[:]  
                     
@@ -154,7 +166,7 @@ class Visualize(object):
             pass
         
         
-        #- Plot each grid    
+        #- Update each grid    
         axarr[0].imshow(dataEnv, interpolation='none',
                 extent=[0, width, 0, height],
                 zorder=0) 
@@ -170,7 +182,6 @@ class Visualize(object):
                 zorder=0)
         
         plt.pause(0.4)
-        #f.canvas.draw()
         plt.show()
         
     def plot_carriers(self, gridObj, list_of_carriers=[], show=True):
@@ -197,8 +208,8 @@ class Visualize(object):
         carriers_y = np.zeros(len(list_of_carriers))
         
         for i in range(len(list_of_carriers)):
-            carriers_x[i] = list_of_carriers[i].x + 0.5
-            carriers_y[i] = width - list_of_carriers[i].y - 0.5
+            carriers_x[i] = list_of_carriers[i].x + .5
+            carriers_y[i] = width - list_of_carriers[i].y - .5
         
         scat = plt.scatter(carriers_x, carriers_y, c='y')        
         plt.show()
