@@ -17,8 +17,8 @@ class Grid(object):
     RURAL_POP_RANGE = 1 #Range around initial size
     
     ## Initializing Grid ##
-    CITY_PROB = 1 # Test value
-    #CITY_PROB = 0.02 #Chance of placing a city
+    #CITY_PROB = 1 # Test value
+    CITY_PROB = 0.02 #Chance of placing a city
     SUBURBAN_PROB = 0.05 #Chance of placing suburban area
     RURAL_PROB = 0.08 #Chance of placing a rural area
     BARRIER_PROB = 0
