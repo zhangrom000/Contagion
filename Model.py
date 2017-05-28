@@ -8,7 +8,7 @@ import numpy as N
 from Grid import Grid
 from Visualize import Visualize
 
-TIMELINE = 10 #Time of the model
+TIMELINE = 100 #Time of the model
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 
@@ -24,7 +24,7 @@ f, axs = V.init_plot(G)
 scat = V.plot_carriers(G, G.CARRIERS)
 for dt in range(TIME):
     grid = G.updateGrid()
-    gridArr.append(grid)
+    #gridArr.append(grid)
     scat.remove()
     scat = V.plot_carriers(G, G.CARRIERS)
     V.update_plot(G, f, axs)

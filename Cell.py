@@ -91,12 +91,16 @@ class Cell(object):
             if (self.currentTimeStep >= self.recovery_days):
                 randVal = rand.random()
                 if (randVal < self.RECOVER_PROBABILITY):
-                    numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate())
+                    #numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate())
+                    numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] * self.recover_rate())
                     self.TOTAL_RECOVERED += numRecovered
                     self.TOTAL_INFECTED -= numRecovered
                     
             if (self.currentTimeStep >= self.LIFESPAN):
-                numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)
+                #numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)         
+                numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] - numRecovered)
+                if (numDead < 0):
+                    numDead = 0
                 self.TOTAL_DEAD += numDead
                 self.TOTAL_INFECTED -= numDead
                 self.TOTAL_POP -= numDead
@@ -106,6 +110,9 @@ class Cell(object):
             self.currentTimeStep += 1
         else:
             self.quarantined = 'true'
+            
+        if (self.TOTAL_DEAD > self.INITIAL_POP):
+            self.TOTAL_DEAD = self.INITIAL_POP
     """
     infect_probability
     
@@ -151,7 +158,7 @@ class Cell(object):
     
     """    
     def infect_rate(self):
-        numToInfect = int((self.POLLUTION * 100) * (self.TOTAL_INFECTED) / self.AFFLUENCE * 100)
+        numToInfect = int(((self.POLLUTION * 100) * (self.TOTAL_INFECTED)) / (self.AFFLUENCE * 1000))
         return numToInfect
     """
     recover_rate
@@ -161,7 +168,7 @@ class Cell(object):
     
     """     
     def recover_rate(self):
-        pctRecovered = ((10 * self.AFFLUENCE) * (10 * self.POLLUTION)) / 100
+        pctRecovered = (((10 * self.AFFLUENCE) - (10 * self.POLLUTION))) / 100
         return pctRecovered 
     """
     carriers_In_Cell
@@ -175,5 +182,6 @@ class Cell(object):
     def carriers_In_Cell(self):
         totalCarriers = 0
         for c in self.carrierList:
-            totalCarriers += c.NUM_IN_SWARM
+            if (c.x == self.x and c.y == self.y):
+                totalCarriers += c.NUM_IN_SWARM
         return totalCarriers
