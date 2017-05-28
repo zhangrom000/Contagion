@@ -42,7 +42,7 @@ class Carrier(object):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE):
             self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + self.POP_GROWTH_RATE)
         
-        self.split(env_grid)
+        #self.split(env_grid)
         self.Move(env_grid)
         pass
     
@@ -81,7 +81,7 @@ class Carrier(object):
         if (self.NUM_IN_SWARM >= self.MAX_SWARM_SIZE):
             new_swarm = self.NUM_IN_SWARM / 2
             self.NUM_IN_SWARM -= new_swarm
-            env_grid.addCarrier(self.x, self.y, new_swarm)
+            env_grid.addCarrier(self.x, self.y, new_swarm)       
     
     def Infect(self):
         INFECTED = True
