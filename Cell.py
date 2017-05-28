@@ -66,12 +66,22 @@ class Cell(object):
     """
     def update_population(self, carriers):
         self.carrierList = carriers
+        self.currentTimeStep += 1
         
+        ## Death ##
+        if self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] > 0:
+            recovered = int(self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] * self.RECOVER_PROBABILITY)
+            self.TOTAL_INFECTED -= self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN]
+            self.TOTAL_RECOVERED += recovered
+            self.TOTAL_DEAD += self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] - recovered
+        
+        ## Infection ##
         infected = self.infect_rate()
-        self.TOTAL_INFECTED = infected
+        self.TOTAL_INFECTED += infected
+        self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] = infected
         self.TOTAL_POP -= infected
         
-        return self.TOTAL_DEAD, self.TOTAL_INFECTED, self.TOTAL_POP
+        return self.TOTAL_DEAD, self.TOTAL_INFECTED, (self.TOTAL_POP + self.TOTAL_RECOVERED)
         
     """
     infect_rate
@@ -85,6 +95,7 @@ class Cell(object):
         infect_prob = Carrier.INFECTION_RATE * self.DENSITY
         numToInfect = int((self.carriers_In_Cell() * infect_prob) \
                           + (self.TOTAL_INFECTED * infect_prob))
+        numToInfect = min(numToInfect, self.TOTAL_POP)
         return numToInfect
     """
     recover_rate

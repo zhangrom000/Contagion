@@ -190,7 +190,7 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        plt.pause(0.4)
+        #plt.pause(0.4)
         plt.show()
         
     def plot_carriers(self, gridObj, list_of_carriers=[], show=True):

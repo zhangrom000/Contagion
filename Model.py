@@ -26,7 +26,7 @@ scat = V.plot_carriers(G, G.CARRIERS)
 for dt in range(TIME):
     print dt
     dead, infected, alive = G.updateGrid()
-    print dead
+    #print infected
     dataArr[dt][0] = dead
     dataArr[dt][1] = infected
     dataArr[dt][2] = alive
@@ -36,9 +36,9 @@ for dt in range(TIME):
     V.update_plot(G, f, axs)
     
 plt.figure("Stats")
-plt.plot(range(TIME), dataArr[:,0])
-plt.plot(range(TIME), dataArr[:,1])
-plt.plot(range(TIME), dataArr[:,2])
+plt.plot(range(TIME), dataArr[:,0], 'r')
+plt.plot(range(TIME), dataArr[:,1], 'b')
+plt.plot(range(TIME), dataArr[:,2], 'g')
 #plt.title("Percentage of Trees Burned by Probability")
 plt.xlabel("Time")
 plt.ylabel("Stats")
