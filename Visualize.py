@@ -128,8 +128,8 @@ class Visualize(object):
         cEnvMap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
         # Hex Gradient in 10 steps from green to red
         cInfMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
-        # Hex Gradient in 5 steps from white to black
-        cPopMap = ['#FFFFFF', '#BFBFBF', '#7F7F7F', '#3F3F3F', '#000000']
+        # Hex Gradient in 10 steps from white to black
+        cPopMap = ['#FFFFFF', '#E2E2E2', '#C6C6C6', '#AAAAAA', '#8D8D8D', '#717171', '#555555', '#383838', '#1C1C1C', '#000000']
         convert = matplotlib.colors.ColorConverter()
         
         # Setup the Environment color grid
@@ -145,22 +145,23 @@ class Visualize(object):
                     dataEnv[i, j, :] = temp[:]
 
                     # Setup the Population color grid
-                    if cell.INITIAL_POP == 0: popRatio = 4
-                    else: popRatio = cell.TOTAL_DEAD / cell.INITIAL_POP
-                    if cell.TOTAL_DEAD != 0: print(str(cell.TOTAL_DEAD) + " dead and initial: " + str(cell.INITIAL_POP))
-                    popColor = int(popRatio * 4) # convert pop ratio to integer
-                    if popColor > 4 or popColor < 0: popColor = 4
+                    if cell.INITIAL_POP == 0: popRatio = 9
+                    else: popRatio = float(cell.TOTAL_DEAD) / float(cell.INITIAL_POP)
+#                    if cell.TOTAL_DEAD != 0: print(str(cell.TOTAL_DEAD) + " dead and initial: " + str(cell.INITIAL_POP) + " and ratio: " + str(popRatio))
+                    popColor = int(popRatio * 9) # convert pop ratio to integer
+                    if popColor > 9 or popColor < 0: popColor = 9
                     temp = N.array( convert.to_rgb( cPopMap[popColor] ) ) # grab the hex code belonging to that pop ratio
                     dataPop[i, j, :] = temp[:] 
 
 
                     # Setup the Infected color grid
                     if cell.TOTAL_POP == 0: infRatio = 0
-                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
+                    else: infRatio = float(cell.TOTAL_INFECTED) / float(cell.TOTAL_POP)
+#                    if cell.TOTAL_INFECTED != 0 and cell.TOTAL_POP != 0: print(str(cell.TOTAL_INFECTED) + " inf and TOTAL_POP: " + str(cell.TOTAL_POP) + " and ratio: " + str(infRatio))
                     infColor = int(infRatio * 9) # convert inf ratio to integer
                     if infColor > 9 or infColor < 0: infColor = 9
                     temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
-                    dataInf[i, j, :] = temp[:]  
+                    dataInf[i, j, :] = temp[:]
                     
         else: # error catch for empty grid
             pass
