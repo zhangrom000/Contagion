@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.random as rand
+from Carrier import Carrier
 """
 Class Cell
 Represents a population of people and corresponding population density type 
@@ -18,21 +19,22 @@ class Cell(object):
         if (density == 'City'):
             self.ENV_TYPE = 1
             self.INITIAL_POP = 1000
+            self.DENSITY = 1
         elif(density == 'Suburban'):
             self.ENV_TYPE = 2
             self.INITIAL_POP = 100
-            
+            self.DENSITY = 0.8
         elif(density == 'Rural'):
             self.ENV_TYPE = 3
             self.INITIAL_POP = 10
-            
+            self.DENSITY = 0.4
         elif(density == 'Land'):
             self.ENV_TYPE = 0
             self.INITIAL_POP = 0
-            
+            self.DENSITY = 0
         else:
             self.INITIAL_POP = 0
-            
+            self.DENSITY = 0
             
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
@@ -63,92 +65,13 @@ class Cell(object):
     
     """
     def update_population(self, carriers):
-        """
-        PSEUDOCODE: 
-        Check environment value, agent state at the coordinate of this Cell 
-        in order to determine incrementation of infected population within this
-        time step. Increment number of dead based on infected lifespan. 
-        """
         self.carrierList = carriers
-        if (self.TOTAL_POP >= self.TOTAL_RECOVERED):
-            if (self.TOTAL_INFECTED == 0):
-                for carrier in self.carrierList: 
-                    if (carrier.x == self.x and carrier.y == self.y):
-                        #compare random value between 1 and 0 to infect_probability
-                        #if rand val is less than probability, 
-                        # TOTAL_INFECTED ++
-                        randVal = rand.random()
-                        if (randVal < self.infect_probability()):
-                            self.TOTAL_INFECTED += 1
-                        
-            elif (self.TOTAL_INFECTED > 0 and self.TOTAL_INFECTED < self.TOTAL_POP):
-                #Infect current population based on infect_rate
-                self.TOTAL_INFECTED += self.infect_rate()
-                if (self.TOTAL_INFECTED > self.TOTAL_POP):
-                     self.TOTAL_INFECTED = self.TOTAL_POP   
-            
-            numRecovered = 0
-            if (self.currentTimeStep >= self.recovery_days):
-                randVal = rand.random()
-                if (randVal < self.RECOVER_PROBABILITY):
-                    #numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.recovery_days] * self.recover_rate())
-                    numRecovered = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] * self.recover_rate())
-                    self.TOTAL_RECOVERED += numRecovered
-                    self.TOTAL_INFECTED -= numRecovered
-                    
-            if (self.currentTimeStep >= self.LIFESPAN):
-                #numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN) - self.LIFESPAN] - numRecovered)         
-                numDead = int(self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] - numRecovered)
-                if (numDead < 0):
-                    numDead = 0
-                self.TOTAL_DEAD += numDead
-                self.TOTAL_INFECTED -= numDead
-                self.TOTAL_POP -= numDead
-                
-                
-            self.INFECTED_ARR[(self.currentTimeStep % self.LIFESPAN)] = self.TOTAL_INFECTED
-            self.currentTimeStep += 1
-        else:
-            self.quarantined = 'true'
-            
-        if (self.TOTAL_DEAD > self.INITIAL_POP):
-            self.TOTAL_DEAD = self.INITIAL_POP
-        return self.TOTAL_DEAD, self.TOTAL_INFECTED, self.TOTAL_POP
-    """
-    infect_probability
-    
-    returns the probability that a population will initially be infected as a
-    function of the current population, pollution level, and number of carriers
-    currently in this cell.
-    
-    PRECONDITION: This Cell's population has 0 infected
-    
-    """
-    def infect_probability(self):
-        probability = 0.0
-        if  self.TOTAL_POP > 1000:
-            probability += 0.5
-        elif self.TOTAL_POP < 1000 and self.TOTAL_POP > 100:
-            probability += 0.35
-        elif self.TOTAL_POP < 100 and self.TOTAL_POP > 10:
-            probability += 0.2
-        else:
-            probability += 0.15
-            
-        if self.POLLUTION > 0.8:
-            probability += 0.2
-            
-        elif self.POLLUTION > 0.5:
-            probability += 0.1
-        else: 
-            probability += 0.05
-            
-        if (self.carriers_In_Cell() > 100):
-            probability *= 1.25
-        else:
-            probability *= 1.1
         
-        return probability
+        infected = self.infect_rate()
+        self.TOTAL_INFECTED = infected
+        self.TOTAL_POP -= infected
+        
+        return self.TOTAL_DEAD, self.TOTAL_INFECTED, self.TOTAL_POP
         
     """
     infect_rate
@@ -159,7 +82,9 @@ class Cell(object):
     
     """    
     def infect_rate(self):
-        numToInfect = int(((self.POLLUTION * 100) * (self.TOTAL_INFECTED)) / (self.AFFLUENCE * 100))
+        infect_prob = Carrier.INFECTION_RATE * self.DENSITY
+        numToInfect = int((self.carriers_In_Cell() * infect_prob) \
+                          + (self.TOTAL_INFECTED * infect_prob))
         return numToInfect
     """
     recover_rate
