@@ -113,6 +113,7 @@ class Cell(object):
             
         if (self.TOTAL_DEAD > self.INITIAL_POP):
             self.TOTAL_DEAD = self.INITIAL_POP
+        return self.TOTAL_DEAD, self.TOTAL_INFECTED, self.TOTAL_POP
     """
     infect_probability
     
@@ -158,7 +159,7 @@ class Cell(object):
     
     """    
     def infect_rate(self):
-        numToInfect = int(((self.POLLUTION * 100) * (self.TOTAL_INFECTED)) / (self.AFFLUENCE * 1000))
+        numToInfect = int(((self.POLLUTION * 100) * (self.TOTAL_INFECTED)) / (self.AFFLUENCE * 100))
         return numToInfect
     """
     recover_rate
@@ -168,7 +169,8 @@ class Cell(object):
     
     """     
     def recover_rate(self):
-        pctRecovered = (((10 * self.AFFLUENCE) - (10 * self.POLLUTION))) / 100
+        #pctRecovered = (((10 * self.AFFLUENCE) - (10 * self.POLLUTION))) / 100
+        pctRecovered = 0
         return pctRecovered 
     """
     carriers_In_Cell

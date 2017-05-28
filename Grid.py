@@ -54,7 +54,7 @@ class Grid(object):
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     CARRIERS = [] #An array of all the carriers
-        
+    MAX_CARRIERS = 8        
         
     def init(self):
         self.initGrid()
@@ -68,6 +68,9 @@ class Grid(object):
                 if rand[0] <= self.CITY_PROB:
                     #self.GRID[x][y] = self.CITY
                     self.GRID[x][y]= Cell(x, y, 'City')
+                    if len(self.CARRIERS) < self.MAX_CARRIERS:
+                        for i in range(self.MAX_CARRIERS):
+                            self.addCarrier(x, y, 10)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
@@ -83,24 +86,31 @@ class Grid(object):
                 else:
                     #self.GRID[x][y] = self.LAND
                     self.GRID[x][y]= Cell(x, y, 'Land')
-                if rand[4] <= self.CARRIER_PROB:
-                    self.addCarrier(x, y)  
+                #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
+                    #self.addCarrier(x, y)  
         
-    def addCarrier(self, x, y):
+    def addCarrier(self, x, y, numSwarm):
         hold = Carrier()
         hold.x = x
         hold.y = y
+        hold.NUM_IN_SWARM = numSwarm
         self.CARRIERS.append(hold)
     
     def updateGrid(self):
+        dead = 0
+        infected = 0
+        alive = 0
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
-                self.GRID[i][j].update_population(self.CARRIERS)
+                d, inf, a = self.GRID[i][j].update_population(self.CARRIERS)
+                dead += d
+                infected += inf
+                alive += a        
                 
-        return self.GRID
+        return dead, infected, alive
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
