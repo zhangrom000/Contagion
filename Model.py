@@ -26,8 +26,8 @@ gridArr = list() #Array of grids for each timestep
 environArr = N.array(TIME) #Array of enviroment for each timestep
 
 G.init() #Initialize the grid
-f, axs = V.init_plot(G)
-scat = V.plot_carriers(G, G.CARRIERS)
+f, axs = V.update_plot(G)
+carrierScatter,travelerScatter = V.plot_agents(G)
 for dt in range(TIME):
     print dt
     dead, infected, alive, recovered, susceptible = G.updateGrid()
@@ -38,8 +38,9 @@ for dt in range(TIME):
     dataArr[dt][3] = recovered
     dataArr[dt][4] = susceptible
     #gridArr.append(grid)
-    scat.remove()
-    scat = V.plot_carriers(G, G.CARRIERS)
+    carrierScatter.remove()
+    travelerScatter.remove()
+    carrierScatter,travelerScatter = V.plot_agents(G)
     V.update_plot(G, f, axs)
     
 plt.figure("Stats")
