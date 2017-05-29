@@ -1,7 +1,8 @@
 """
 Class Traveler
-
-
+Represents an agent that moves about the grid. Travelers move between cities.
+They may carry infected Carriers around the grid, further infecting areas 
+within the grid.
 """
 import numpy as np
 
@@ -11,14 +12,25 @@ class Traveler(object):
     y = 0
     destination = [0,0]
     speed = 1
+    """
+    __init__
     
+    Initialize this Traveler: x-y coordinate, destination, and rate of movement
+    """
     def __init__(self, x_init=0, y_init=0, dest=[0,0], spd=1):
         self.x = x_init
         self.y = y_init
         self.destination = dest
         self.speed = spd
-                
+             
+    """
+    move
+    
+    update this Traveler's location for the current time step if not 
+    currently at the destination
+    """
     def move(self, grid):
+        #If this Traveler has arrived at its destination, find a new destination
         if self.x == self.destination[0] and self.y == self.destination[1]:
             self.getNewDestination(grid)
         if self.destination[0] > self.x:
@@ -30,6 +42,11 @@ class Traveler(object):
         if self.destination[1] < self.y:
             self.y -= 1
     
+    """
+    getNewDestination
+    
+    Determine a new coordinate for this Traveler to travel to
+    """
     def getNewDestination(self, grid):
         num = len(grid.TRAVEL_LOC)
         i = 1
