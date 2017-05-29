@@ -1,5 +1,9 @@
-#### Model ####
+"""
+Class Model
 
+The driver for the Contagion simulation. Contains data relevant to the maintenance
+the simulation such as: duration, the grid, metrics, and graphical outputs.
+"""
 #Infection will take into acount base probability, number of infected
 #rats and humans, population density, pollution level, resource availability,
 # and whether the cell is quarantined or not.
@@ -9,7 +13,7 @@ import matplotlib.pyplot as plt
 from Grid import Grid
 from Visualize import Visualize
 
-TIMELINE = 365 * 3 #Time of the model
+TIMELINE = 365 * 3 #Timestep duration of the model
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 #
@@ -20,7 +24,7 @@ dataArr = N.zeros((TIME, 5)) #Array of infection data per timestep
 gridArr = list() #Array of grids for each timestep
 environArr = N.array(TIME) #Array of enviroment for each timestep
 
-G.init()
+G.init() #Initialize the grid
 f, axs = V.init_plot(G)
 scat = V.plot_carriers(G, G.CARRIERS)
 for dt in range(TIME):
