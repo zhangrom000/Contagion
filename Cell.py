@@ -24,11 +24,7 @@ class Cell(object):
     
     Initialize this Cell: x-y coordinate on grid, environment type, lifespan of population, etc
     """
-<<<<<<< HEAD
-    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False', carrierList = []):
-=======
     def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 20, quarantined = 'False', carrierList = []):
->>>>>>> origin/master
         #### Variables ####
         if (density == 'City'):
             self.ENV_TYPE = 1
@@ -56,13 +52,10 @@ class Cell(object):
         self.AFFLUENCE = rand.random()
         self.POLLUTION = rand.random()
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
-<<<<<<< HEAD
         self.RECOVER_PROBABILITY = 0.05 #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0 #Total Dead Population of cell
-=======
         self.RECOVER_PROBABILITY = 0.2 #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0#Total Dead Population of cell
->>>>>>> origin/master
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
         self.QUARANTINED = quarantined #Whether or not this cell is blocked off from contagion
@@ -70,11 +63,7 @@ class Cell(object):
         self.carrierList = carrierList #Array of Carriers at the same x-y coordinate as this Cell
         self.currentTimeStep = 0 #The current deltaX of the simulation
         
-<<<<<<< HEAD
         self.recovery_days = 7 #The number of days after which infected people within the population have the chance to recover
-=======
-        self.recovery_days = 7  #The number of days after which infected people within the population have the chance to recover
->>>>>>> origin/master
         
 
     """
@@ -89,10 +78,6 @@ class Cell(object):
     
     """
     def update_population(self, carriers):
-<<<<<<< HEAD
-        
-=======
->>>>>>> origin/master
         self.carrierList = carriers #Update the list of carriers for those that might have moved to this Cell
         self.currentTimeStep += 1
         
