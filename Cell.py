@@ -5,8 +5,8 @@ from Carrier import Carrier
 Class Cell
 Represents a population of people and corresponding population density type 
 encapsulated in a single X-Y coordinate on the overall grid.
-A Cell with a population contains metrics of the population such as number of 
-total living population, number of infected people, lifespan of infected people 
+A Cell with a population contains metrics of the population: number of 
+total living people in the population, number of infected people, lifespan of infected people 
 in this cell, and the history of the population metrics per each time step of
 the simulation.
 """
@@ -14,6 +14,11 @@ class Cell(object):
     
     ENV_TYPE = 4
     
+    """
+    __init__
+    
+    Initialize this Cell: x-y coordinate on grid, environment type, lifespan of population, etc
+    """
     def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False', carrierList = []):
         #### Variables ####
         if (density == 'City'):
@@ -43,15 +48,15 @@ class Cell(object):
         self.POLLUTION = rand.random()
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
         self.RECOVER_PROBABILITY = 0.05 #Percentage of population recovered after end of lifespan
-        self.TOTAL_DEAD = 0#Total Dead Population of cell
+        self.TOTAL_DEAD = 0 #Total Dead Population of cell
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
         self.QUARANTINED = quarantined #Whether or not this cell is blocked off from contagion
         self.INFECTED_ARR = np.zeros(self.LIFESPAN) #Keeps track of the number of infected per time step
-        self.carrierList = carrierList
-        self.currentTimeStep = 0
+        self.carrierList = carrierList #Array of Carriers at the same x-y coordinate as this Cell
+        self.currentTimeStep = 0 #The current deltaX of the simulation
         
-        self.recovery_days = 7
+        self.recovery_days = 7 #The number of days after which infected people within the population have the chance to recover
         
 
     """
@@ -62,10 +67,12 @@ class Cell(object):
         Environment type at this Cell's location,
         This cell's Population density type
         This cell's pollution value 
+        This cell's affluence value
     
     """
     def update_population(self, carriers):
-        self.carrierList = carriers
+        
+        self.carrierList = carriers #Update the list of carriers for those that might have moved to this Cell
         self.currentTimeStep += 1
         
         ## Death ##
@@ -86,7 +93,7 @@ class Cell(object):
     """
     infect_rate
     
-    returns the number of people in this Cell's population to infect in the 
+    return the number of people in this Cell's population to infect in the 
     current time step as a function of polliution, number of infected, and
     affluence.
     
@@ -100,7 +107,7 @@ class Cell(object):
     """
     recover_rate
     
-    returns a percentage of infected to recover at the time step that is 
+    return a percentage of infected to recover at the time step that is 
     currently "recovery_days" old 
     
     """     
@@ -111,7 +118,7 @@ class Cell(object):
     """
     carriers_In_Cell
     
-    returns the total of numInSwarm of all Carriers in this cell
+    return the total of numInSwarm of all Carriers in this cell
     
     PRECONDITION: All carriers contained in self.carrierList are all carriers 
                     whose x-y coordinates are identical to this Cell's x-y 

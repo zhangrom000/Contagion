@@ -26,6 +26,11 @@ class Carrier(object):
     SOUTH = [x, y - 1]
     WEST =[x - 1, y]
     
+    """
+    __init__
+    
+    Initialize this Carrier: x-y coordinate on grid, number of individuals in swarm, infection rate
+    """
     def __init__(self, x_init=0, y_init=0, swarm_init = 1, infected="False", infect_rate=0.2):
         self.x = x_init
         self.y = y_init
@@ -34,6 +39,13 @@ class Carrier(object):
         self.INFECTION_RATE = infect_rate
     
     # Update population and location of swarm
+    """
+    update
+    
+    Updates this Carrier object for the current time step: 
+        Currently updates location of this Carrier & the reproduction of the swarm
+    
+    """
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
         self.EAST = [self.x + 1, self.y]
@@ -46,7 +58,12 @@ class Carrier(object):
         self.Move(env_grid)
         pass
     
-    
+    """
+    Move
+        
+    Consider this Carrier's possible changes in locations in a Von Neumann 
+    neighborhood. Checks the grid for valid locations for this carrier to move to. 
+    """
     def Move(self, env_grid):
         # Check mobility versus a rng to determine if it moves
         # Check if nearby agents, or for a point of interest
@@ -77,12 +94,22 @@ class Carrier(object):
             self.x = move[0]
             self.y = move[1]
     
+    """
+    split
+    
+    
+    """
     def split(self, env_grid):
         if (self.NUM_IN_SWARM >= self.MAX_SWARM_SIZE):
             new_swarm = self.NUM_IN_SWARM / 2
             self.NUM_IN_SWARM -= new_swarm
             env_grid.addCarrier(self.x, self.y, new_swarm)       
     
+    """
+    Infect
+    
+    
+    """
     def Infect(self):
         INFECTED = True
         pass

@@ -1,3 +1,13 @@
+"""
+Class Grid
+
+Grid represents the finite cartesian plane which serves as the overall environment 
+of this agent based model. Cells of populations are defined as a coordinate on this
+Grid. The agents, Carrier objects, are defined as coordinates on this grid. The 
+Carrier agents move independently through this Grid using Von Neumann neighborhood
+move policy.
+"""
+
 import numpy as N
 
 from Cell import Cell
@@ -55,12 +65,15 @@ class Grid(object):
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
-        
+    
+    """
+    init 
+    
+    Initialize this Grid; define the range of the grid, define environment types
+    for subsets of the grid at random locations. Probability of an environment 
+    being rural > suburban > city.
+    """
     def init(self):
-        self.initGrid()
-        #Initialize grid, calls other initializations
-        
-    def initGrid(self):
         #Initialize the grid and cells
         for x in range(self.GRID_WIDTH):
             for y in range(self.GRID_HEIGHT):
@@ -89,6 +102,11 @@ class Grid(object):
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
                     #self.addCarrier(x, y)  
         
+    """
+    addCarrier
+    
+    Spawn a Carrier object at a specified x-y coordinate on this Grid
+    """     
     def addCarrier(self, x, y, numSwarm):
         hold = Carrier()
         hold.x = x
@@ -96,13 +114,22 @@ class Grid(object):
         hold.NUM_IN_SWARM = numSwarm
         self.CARRIERS.append(hold)
     
+    """
+    updateGrid
+    
+    Return the overall statistics for this Grid: Total number of people alive, 
+    dead, and infected within every Cell population in this Grid
+    """
     def updateGrid(self):
         dead = 0
         infected = 0
         alive = 0
+        
+        #Update all the Carriers in this Grid
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
+        #Update all Cells in this Grid
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
                 d, inf, a = self.GRID[i][j].update_population(self.CARRIERS)
@@ -110,8 +137,14 @@ class Grid(object):
                 infected += inf
                 alive += a        
                 
+        #Return the totals of dead, infected, and alive metrics of all cells in the Grid        
         return dead, infected, alive
     
+    """
+    getCell
+    
+    Return the Cell object at a specified x-y coordinate
+    """
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
     
