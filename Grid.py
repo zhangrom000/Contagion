@@ -74,7 +74,7 @@ class Grid(object):
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
                         self.TRAVEL_LOC.append([x,y])
                         for i in range(self.MAX_CARRIERS):
-                            self.addCarrier(x, y, 10)  
+                            self.addCarrier(x, y, Carrier.NUM_IN_SWARM)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
@@ -139,11 +139,3 @@ class Grid(object):
                 
         for i in range(len(to_remove)):
             self.CARRIERS.remove(to_remove[i])
-    
-#from Grid import Grid
-#from Visualize import Visualize
-#G = Grid()
-#G.init()
-#V = Visualize()
-#V.plot_all(G)
-#G.init()

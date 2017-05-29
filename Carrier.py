@@ -1,7 +1,6 @@
 """
 Carrier contains a Swarm population that will be used in calculating the infection potential.
 Swarms will grow exponentially until they reach the max swarm. Once this occurs then the swarm will split off
-
 @author Austen Harp
 @version 5/18/2017
 Made for use in the Contagion 
@@ -13,7 +12,6 @@ class Carrier(object):
     #### Variables ####
     NUM_IN_SWARM = np.random.randint(1, 6)  #Number of carriers in this carrier
     #MOBILITY = 0.5 #Ability to travel
-    INFECTED = True #Bool
     INFECTION_RATE = 0.025 #Infectious rate, higher rate means more likely to infect.
     LIFESPAN = .1 #Percentage of swarm lost each timestep
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
@@ -31,12 +29,10 @@ class Carrier(object):
     WEST =[x - 1, y]
     NORTHWEST =[x - 1, y + 1]
     
-    def __init__(self, x_init=0, y_init=0, swarm_init = 1, infected="False", infect_rate=0.2):
+    def __init__(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM):
         self.x = x_init
         self.y = y_init
         self.NUM_IN_SWARM = swarm_init
-        self.INFECTED = infected
-        self.INFECTION_RATE = infect_rate
     
     # Update population and location of swarm
     def update(self, env_grid):
@@ -140,5 +136,3 @@ class Carrier(object):
                 self.NUM_IN_SWARM += num_growth
             elif (self.NUM_IN_SWARM != 0):
                 self.NUM_IN_SWARM += 1
-                
-        
