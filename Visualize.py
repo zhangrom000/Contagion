@@ -115,7 +115,6 @@ class Visualize(object):
             
             f.canvas.set_window_title('Contagion')
            
-        
         #- Update each grid    
         axarr[0].imshow(dataEnv, interpolation='none',
                 extent=[0, width, 0, height],
@@ -170,7 +169,6 @@ class Visualize(object):
             carriers_x[i] = list_of_carriers[i].x + .5
             carriers_y[i] = width - list_of_carriers[i].y - .5
         
-<<<<<<< HEAD
         scat = plt.scatter(carriers_x, carriers_y, c='y')        
         plt.show()
         return scat     
@@ -201,7 +199,6 @@ class Visualize(object):
             travelers_y[i] = width - list_of_travelers[i].y - .5
         
         scat = plt.scatter(travelers_x, travelers_y, c='b', marker = "x")        
-=======
         for j in range(len(list_of_travelers)):
             travelers_x[j] = list_of_travelers[j].x + .5
             travelers_y[j] = width - list_of_travelers[j].y - .5
@@ -209,6 +206,5 @@ class Visualize(object):
         travelerScatter = plt.scatter(travelers_x, travelers_y, c='b', marker = "x") 
         carrierScatter = plt.scatter(carriers_x, carriers_y, c='y') 
                 
->>>>>>> origin/master
         plt.show()
         return carrierScatter, travelerScatter 
