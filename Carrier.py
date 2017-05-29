@@ -14,7 +14,7 @@ class Carrier(object):
     #MOBILITY = 0.5 #Ability to travel
     INFECTED = True #Bool
     INFECTION_RATE = 0.1 #Infectious rate, higher rate means more likely to infect.
-    LIFESPAN = 10 #Counts the lifespan of the rats.  Becoming infected will cut the lifespan.
+    LIFESPAN = 0.1 #Percentage of swarm losteach timestep
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
     POP_GROWTH_RATE = 0.1 #Percentage growth rate of this agent. The agent will eventually split.
     x = 1 #x location in grid
@@ -26,25 +26,14 @@ class Carrier(object):
     SOUTH = [x, y - 1]
     WEST =[x - 1, y]
     
-     """
-    __init__
-    
-    Initialize this Carrier: x-y coordinate on grid, number of individuals in swarm, infection rate
-    """
     def __init__(self, x_init=0, y_init=0, swarm_init = 1, infected="False", infect_rate=0.2):
         self.x = x_init
         self.y = y_init
-        self.NUM_IN_SWAM = swarm_init
+        self.NUM_IN_SWARM = np.random.randint(1, 6) 
         self.INFECTED = infected
         self.INFECTION_RATE = infect_rate
     
-    """
-    update
-    
-    Updates this Carrier object for the current time step: 
-        Currently updates location of this Carrier & the reproduction of the swarm
-    
-    """
+    # Update population and location of swarm
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
         self.EAST = [self.x + 1, self.y]
@@ -54,16 +43,11 @@ class Carrier(object):
             self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + self.POP_GROWTH_RATE)
         
         #self.split(env_grid)
+        self.die(env_grid)
         self.Move(env_grid)
         pass
     
     
-    """
-    Move
-        
-    Consider this Carrier's possible changes in locations in a Von Neumann 
-    neighborhood. Checks the grid for valid locations for this carrier to move to. 
-    """
     def Move(self, env_grid):
         # Check mobility versus a rng to determine if it moves
         # Check if nearby agents, or for a point of interest
@@ -100,8 +84,7 @@ class Carrier(object):
             self.NUM_IN_SWARM -= new_swarm
             env_grid.addCarrier(self.x, self.y, new_swarm)       
     
-    def Infect(self):
-        INFECTED = True
-        pass
-        
-       
+    def die(self,env_grid):    
+        if (env_grid.getCell([self.x, self.y]).ENV_TYPE == 0):
+            self.NUM_IN_SWARM -= self.NUM_IN_SWARM * \
+            (self.LIFESPAN + self.POP_GROWTH_RATE)

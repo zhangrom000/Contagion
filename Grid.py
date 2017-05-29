@@ -129,6 +129,11 @@ class Grid(object):
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
     
+    def killCarrier(self):
+        for i in range(len(self.CARRIERS)):
+            if (self.CARRIERS[i].NUM_IN_SWARM <= 0):
+                del self.CARRIERS[i]
+    
 #from Grid import Grid
 #from Visualize import Visualize
 #G = Grid()
