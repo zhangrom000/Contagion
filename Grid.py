@@ -7,11 +7,16 @@ Grid. The agents, Carrier objects, are defined as coordinates on this grid. The
 Carrier agents move independently through this Grid using Von Neumann neighborhood
 move policy.
 """
+<<<<<<< HEAD
 
 import numpy as N
+=======
+>>>>>>> origin/master
 
+import numpy as N
 from Cell import Cell
 from Carrier import Carrier
+from Traveller import Traveller
 
 class Grid(object):
     #### Variables ####
@@ -63,16 +68,26 @@ class Grid(object):
     QUARANTINE_MAX = 1 #Number of infected to implement Quarantine
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
+    TRAVELLERS = []
+    TRAVEL_LOC = []
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
+<<<<<<< HEAD
     
+=======
+     
+>>>>>>> origin/master
     """
     init 
     
     Initialize this Grid; define the range of the grid, define environment types
     for subsets of the grid at random locations. Probability of an environment 
     being rural > suburban > city.
+<<<<<<< HEAD
     """
+=======
+    """    
+>>>>>>> origin/master
     def init(self):
         #Initialize the grid and cells
         for x in range(self.GRID_WIDTH):
@@ -82,16 +97,19 @@ class Grid(object):
                     #self.GRID[x][y] = self.CITY
                     self.GRID[x][y]= Cell(x, y, 'City')
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
+                        self.TRAVEL_LOC.append([x,y])
                         for i in range(self.MAX_CARRIERS):
                             self.addCarrier(x, y, 10)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
                     self.GRID[x][y]= Cell(x, y, 'Suburban')
+                    self.TRAVEL_LOC.append([x,y])
                     #Initialize Suburban cell
                 elif rand[2] <= self.RURAL_PROB:
                     #self.GRID[x][y] = self.RURAL
                     self.GRID[x][y]= Cell(x, y, 'Rural')
+                    self.TRAVEL_LOC.append([x,y])
                     #Initialize Rural cell
                 elif rand[3] <= self.BARRIER_PROB:
                     #self.GRID[x][y] = self.BARRIER
@@ -100,13 +118,19 @@ class Grid(object):
                     #self.GRID[x][y] = self.LAND
                     self.GRID[x][y]= Cell(x, y, 'Land')
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
-                    #self.addCarrier(x, y)  
+                    #self.addCarrier(x, y)
+        for i in range(4):
+            self.TRAVELLERS.append(Traveller())
         
     """
     addCarrier
     
     Spawn a Carrier object at a specified x-y coordinate on this Grid
+<<<<<<< HEAD
     """     
+=======
+    """         
+>>>>>>> origin/master
     def addCarrier(self, x, y, numSwarm):
         hold = Carrier()
         hold.x = x
@@ -124,17 +148,31 @@ class Grid(object):
         dead = 0
         infected = 0
         alive = 0
+<<<<<<< HEAD
         
         #Update all the Carriers in this Grid
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
         #Update all Cells in this Grid
+=======
+        recovered = 0
+        susceptible = 0
+        
+        #Update all the Carriers in this Grid       
+        for i in range(len(self.TRAVELLERS)):
+            self.TRAVELLERS[i].move(self)
+        #Update all the Carriers in this Grid        
+        for i in range(len(self.CARRIERS)):
+            self.CARRIERS[i].update(self)
+        #Update all Cells in this Grid    
+>>>>>>> origin/master
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
-                d, inf, a = self.GRID[i][j].update_population(self.CARRIERS)
+                d, inf, a, r, s = self.GRID[i][j].update_population(self.CARRIERS)
                 dead += d
                 infected += inf
+<<<<<<< HEAD
                 alive += a        
                 
         #Return the totals of dead, infected, and alive metrics of all cells in the Grid        
@@ -143,10 +181,31 @@ class Grid(object):
     """
     getCell
     
+=======
+                alive += a    
+                recovered += r
+                susceptible += s    
+        #Return the totals of dead, infected, and alive metrics of all cells in the Grid        
+        return dead, infected, alive, recovered, susceptible
+    
+    """
+    getCell
+    
+>>>>>>> origin/master
     Return the Cell object at a specified x-y coordinate
     """
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
+    
+    """
+    killCarrier
+    
+    Remove a carrier in the Model from the simulation 
+    """
+    def killCarrier(self):
+        for i in range(len(self.CARRIERS)):
+            if (self.CARRIERS[i].NUM_IN_SWARM <= 0):
+                del self.CARRIERS[i]
     
 #from Grid import Grid
 #from Visualize import Visualize

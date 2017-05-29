@@ -13,8 +13,8 @@ class Carrier(object):
     NUM_IN_SWARM = 10 #Number of carriers in this carrier
     #MOBILITY = 0.5 #Ability to travel
     INFECTED = True #Bool
-    INFECTION_RATE = 0.9 #Infectious rate, higher rate means more likely to infect.
-    LIFESPAN = 10 #Counts the lifespan of the rats.  Becoming infected will cut the lifespan.
+    INFECTION_RATE = 0.1 #Infectious rate, higher rate means more likely to infect.
+    LIFESPAN = 0.1 #Percentage of swarm losteach timestep
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
     POP_GROWTH_RATE = 0.1 #Percentage growth rate of this agent. The agent will eventually split.
     x = 1 #x location in grid
@@ -34,7 +34,7 @@ class Carrier(object):
     def __init__(self, x_init=0, y_init=0, swarm_init = 1, infected="False", infect_rate=0.2):
         self.x = x_init
         self.y = y_init
-        self.NUM_IN_SWAM = swarm_init
+        self.NUM_IN_SWARM = np.random.randint(1, 6) 
         self.INFECTED = infected
         self.INFECTION_RATE = infect_rate
     
@@ -55,6 +55,7 @@ class Carrier(object):
             self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + self.POP_GROWTH_RATE)
         
         #self.split(env_grid)
+        self.die(env_grid)
         self.Move(env_grid)
         pass
     
@@ -71,20 +72,20 @@ class Carrier(object):
         possible_moves = []
     
         if (self.NORTH[1] < env_grid.GRID_HEIGHT and
-            env_grid.getCell(self.NORTH).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.NORTH).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.NORTH)
         if (self.EAST[0] < env_grid.GRID_WIDTH and 
-            env_grid.getCell(self.EAST).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.EAST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.EAST)
-        if (self.SOUTH[1] > 0 and 
-            env_grid.getCell(self.SOUTH).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+        if (self.SOUTH[1] >= 0 and 
+            env_grid.getCell(self.SOUTH).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.SOUTH)
-        if (self.WEST[0] > 0 and 
-            env_grid.getCell(self.WEST).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+        if (self.WEST[0] >= 0 and 
+            env_grid.getCell(self.WEST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.WEST)
         
         possible_moves = np.array(possible_moves)
@@ -105,6 +106,7 @@ class Carrier(object):
             self.NUM_IN_SWARM -= new_swarm
             env_grid.addCarrier(self.x, self.y, new_swarm)       
     
+<<<<<<< HEAD
     """
     Infect
     
@@ -115,3 +117,9 @@ class Carrier(object):
         pass
         
        
+=======
+    def die(self,env_grid):    
+        if (env_grid.getCell([self.x, self.y]).ENV_TYPE == 0):
+            self.NUM_IN_SWARM -= self.NUM_IN_SWARM * \
+            (self.LIFESPAN + self.POP_GROWTH_RATE)
+>>>>>>> origin/master
