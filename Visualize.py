@@ -2,14 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import numpy as N
 import matplotlib
-import time
 
 
 """
 Class Visualize
-
 Plots a given grid, which is a 2D array of cells.
-
 Pop cell Filling:        
     100% Healthy = solid green
     100% Infected = solid red
@@ -18,7 +15,6 @@ Pop cell Filling:
     
 Cell fades from green to red as population gets infected.
 Cell fades to darker color as population dies.
-
 Environment Outlines:
     Suburban: green
     Urban: grey
@@ -28,117 +24,15 @@ Environment Outlines:
         
 class Visualize(object):
         
-    """
-    init_plot
-    
-    Initialize this visualization of the Contagion simulation
-<<<<<<< HEAD
-    """
-=======
-    """    
->>>>>>> origin/master
-    def init_plot(self, gridObj):
-        height = gridObj.GRID_HEIGHT
-        width = gridObj.GRID_WIDTH
-        Grid = gridObj.GRID        
-        dataEnv = N.zeros((width, height, 3), dtype='f')
-        dataPop = N.zeros((width, height, 3), dtype='f')
-        dataInf = N.zeros((width, height, 3), dtype='f')
-        # 0 = Land, 1 = City, 2 = Suburban, 3 = Rural, 4 = Barrier
-        cEnvMap = ['#8B4513', '#808080', 'g', '#FFA500', '#800080']
-        # Hex Gradient in 10 steps from green to red
-        cInfMap = ['#4BF740', '#5DE13D', '#6FCB3B', '#81B638', '#93A036', '#A58B33', '#B77531', '#C95F2E', '#DB4A2C', '#FF1F27']
-        # Hex Gradient in 5 steps from white to black
-        cPopMap = ['#FFFFFF', '#BFBFBF', '#7F7F7F', '#3F3F3F', '#000000']
-        convert = matplotlib.colors.ColorConverter()
-        
-        # Setup the Environment color grid
-        if len(Grid) != 0:
-            #for i in env_grid:
-            for i in range(0, width):
-                for j in range(0, height):
-                    # Grab the current cell
-                    cell = Grid[j, i]
-                           
-                    # Setup the Environment color grid
-                    temp = N.array( convert.to_rgb( cEnvMap[cell.ENV_TYPE] ) )
-                    if len(cell.carrierList) > 0: temp = N.array( convert.to_rgb( cCarMap[0] ) )
-                    dataEnv[i, j, :] = temp[:]
-
-                    # Setup the Population color grid
-                    if cell.INITIAL_POP == 0: popRatio = 0
-                    else: popRatio = cell.TOTAL_DEAD / cell.INITIAL_POP
-                    popColor = int(popRatio * 4) # convert pop ratio to integer
-                    temp = N.array( convert.to_rgb( cPopMap[popColor] ) ) # grab the hex code belonging to that pop ratio
-                    dataPop[i, j, :] = temp[:] 
-
-
-                    # Setup the Infected color grid
-                    if cell.TOTAL_SUSCEPTIBLE == 0: infRatio = 0
-                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_SUSCEPTIBLE
-                    infColor = int(infRatio * 9) # convert inf ratio to integer
-                    temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
-                    dataInf[i, j, :] = temp[:]  
-                    
-        else: # error catch for empty grid
-            pass
-        
-        
-        #- Create figure and axes objects:        
-        f, axarr = plt.subplots(1, 3)     
-    
-        #- Plot each grid    
-        axarr[0].imshow(dataEnv, interpolation='none',
-                extent=[0, width, 0, height],
-                zorder=0)
-        axarr[0].axis('off')    
-        axarr[0].set_title("Environment") 
-
-           
-        axarr[1].imshow(dataPop, interpolation='none',
-                extent=[0, width, 0, height],
-                zorder=0)
-        axarr[1].axis('off')    
-        axarr[1].set_title("Population") 
-
-
-        axarr[2].imshow(dataInf, interpolation='none',
-                extent=[0, width, 0, height],
-                zorder=0)
-        axarr[2].axis('off')    
-        axarr[2].set_title("Infected")
-        
-        # Create Legend, need to split it up
-        plt.plot([], 'ks', label="City")
-        plt.plot([], 'ys', label="Suburban")
-        plt.plot([], 'gs', label="Land")        
-        plt.plot([], 'ws', label="100% Alive")
-        plt.plot([], 'ks', label="100% Dead")
-        plt.plot([], 'gs', label="Healthy")
-        plt.plot([], 'rs', label="Infected")
-        plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., fontsize = 8)
-
-        f.canvas.set_window_title('Contagion')
-        
-        plt.ion()
-        plt.show()
-        
-        return f, axarr
-        
     
     """
     update_plot
-<<<<<<< HEAD
     
     Update the visualization based on the updated data of the simulation
+    Also inits the plot if not found
     
-=======
-    
-    Update the visualization based on the updated data of the simulation
-    
->>>>>>> origin/master
     """
-    def update_plot(self, gridObj, f, axarr):
+    def update_plot(self, gridObj, f = None, axarr = None):
         
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
@@ -198,6 +92,29 @@ class Visualize(object):
         else: # error catch for empty grid
             pass
         
+        if f is None:
+            #- Create figure and axes objects:        
+            f, axarr = plt.subplots(1, 3)  
+            
+            axarr[0].axis('off')    
+            axarr[0].set_title("Environment") 
+            axarr[1].axis('off')    
+            axarr[1].set_title("Population") 
+            axarr[2].axis('off')    
+            axarr[2].set_title("Infected")
+            
+            # Create Legend
+            plt.plot([], 'ks', label="City")
+            plt.plot([], 'ys', label="Suburban")
+            plt.plot([], 'gs', label="Land")        
+            plt.plot([], 'ws', label="100% Alive")
+            plt.plot([], 'ks', label="100% Dead")
+            plt.plot([], 'gs', label="Healthy")
+            plt.plot([], 'rs', label="Infected")
+            plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0., fontsize = 8)
+            
+            f.canvas.set_window_title('Contagion')
+           
         
         #- Update each grid    
         axarr[0].imshow(dataEnv, interpolation='none',
@@ -214,31 +131,22 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        #plt.pause(0.4)
+        plt.pause(0.4)
         plt.show()
-<<<<<<< HEAD
-=======
         
->>>>>>> origin/master
-    """
-    plot_carriers
+        return f, axarr
+           
     
-    Draw all carriers on the grid represented by dots
-<<<<<<< HEAD
     """
-=======
-    """    
->>>>>>> origin/master
-    def plot_carriers(self, gridObj, list_of_carriers=[], show=True):
+    plot_agents
+    
+    Draw all agents on the grid
+    """
+    def plot_agents(self, gridObj, show=True):
         """
-        Carriers are represented as a dot that moves around cells.
-        Carrier dots grow in size depending on population of swarm.        
+        Carriers are represented as a dot that moves around cells.        
                                         
-        Carrier:
-            Not Infected: white
-            Infected: yellow
-            
-        Dot fades from white to yellow depending on infected amount.
+        Travelers are represented as blue x's
         """
         #takes top_grid and overlay on top of all env_grids
         #takes list_of_carriers and represents them as dots
@@ -249,42 +157,25 @@ class Visualize(object):
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
         
+        list_of_carriers = gridObj.CARRIERS
+        list_of_travelers = gridObj.TRAVELLERS
+        
         carriers_x = np.zeros(len(list_of_carriers))
         carriers_y = np.zeros(len(list_of_carriers))
+        
+        travelers_x = np.zeros(len(list_of_travelers))
+        travelers_y = np.zeros(len(list_of_travelers))
         
         for i in range(len(list_of_carriers)):
             carriers_x[i] = list_of_carriers[i].x + .5
             carriers_y[i] = width - list_of_carriers[i].y - .5
         
-        scat = plt.scatter(carriers_x, carriers_y, c='y')        
+        for j in range(len(list_of_travelers)):
+            travelers_x[j] = list_of_travelers[j].x + .5
+            travelers_y[j] = width - list_of_travelers[j].y - .5
+        
+        travelerScatter = plt.scatter(travelers_x, travelers_y, c='b', marker = "x") 
+        carrierScatter = plt.scatter(carriers_x, carriers_y, c='y') 
+                
         plt.show()
-        return scat     
-    
-    """
-    plot_travellers
-    
-    Draw all travelers on the grid represented by x's
-    """
-    def plot_travellers(self, gridObj, list_of_travellers=[], show=True):
-        """
-        Travelers are represented as a dot that moves around cells.
-        """
-        #takes top_grid and overlay on top of all env_grids
-        #takes list_of_carriers and represents them as dots
-        #add color to dots
-        #update dot movement/merging as they travel through env_grids
-        #update dot color fade as carrier data changes
-        
-        height = gridObj.GRID_HEIGHT
-        width = gridObj.GRID_WIDTH
-        
-        travellers_x = np.zeros(len(list_of_travellers))
-        travellers_y = np.zeros(len(list_of_travellers))
-        
-        for i in range(len(list_of_travellers)):
-            travellers_x[i] = list_of_travellers[i].x + .5
-            travellers_y[i] = width - list_of_travellers[i].y - .5
-        
-        scat = plt.scatter(travellers_x, travellers_y, c='b', marker = "x")        
-        plt.show()
-        return scat  
+        return carrierScatter, travelerScatter 
