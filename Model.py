@@ -38,12 +38,13 @@ for dt in range(TIME):
     V.update_plot(G, f, axs)
     
 plt.figure("Stats")
-plt.plot(range(TIME), dataArr[:,0], 'k') # dead
-plt.plot(range(TIME), dataArr[:,1], 'r') # infected
-plt.plot(range(TIME), dataArr[:,2], 'g') # alive
-plt.plot(range(TIME), dataArr[:,3], 'b') # recovered
-plt.plot(range(TIME), dataArr[:,4], 'y') # susceptible
+plt.plot(range(TIME), dataArr[:,0], 'k', label="Dead") # dead
+plt.plot(range(TIME), dataArr[:,1], 'r', label="Infected") # infected
+plt.plot(range(TIME), dataArr[:,2], 'g', label="Alive") # alive
+plt.plot(range(TIME), dataArr[:,3], 'b', label="Recovered") # recovered
+plt.plot(range(TIME), dataArr[:,4], 'y', label="Susceptible") # susceptible
 #plt.title("Percentage of Trees Burned by Probability")
 plt.xlabel("Time")
 plt.ylabel("Stats")
+plt.legend(loc=1, borderaxespad=0.)
 plt.show()
