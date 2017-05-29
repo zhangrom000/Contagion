@@ -7,16 +7,17 @@ Swarms will grow exponentially until they reach the max swarm. Once this occurs 
 Made for use in the Contagion 
 """
 import numpy as np
+import random
 
 class Carrier(object):
     #### Variables ####
     NUM_IN_SWARM = np.random.randint(1, 6)  #Number of carriers in this carrier
     #MOBILITY = 0.5 #Ability to travel
     INFECTED = True #Bool
-    INFECTION_RATE = 0.1 #Infectious rate, higher rate means more likely to infect.
+    INFECTION_RATE = 0.025 #Infectious rate, higher rate means more likely to infect.
     LIFESPAN = .1 #Percentage of swarm lost each timestep
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
-    POP_GROWTH_RATE = 0.2 #Percentage growth rate of this agent. The agent will eventually split.
+    POP_GROWTH_RATE = 0.05 #Percentage growth rate of this agent. The agent will eventually split.
     x = 1 #x location in grid
     y = 1 #y location in grid
     
@@ -124,7 +125,7 @@ class Carrier(object):
         if (env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE == 0):
             
             num_dead = self.NUM_IN_SWARM * \
-            (self.LIFESPAN) + 1
+            (self.LIFESPAN * random.uniform(0.75, 1.25)) + 1
             
             if (num_dead >= 1):
                 self.NUM_IN_SWARM -= num_dead
@@ -133,7 +134,7 @@ class Carrier(object):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE and
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > 0):
             
-            num_growth = self.NUM_IN_SWARM * self.POP_GROWTH_RATE
+            num_growth = self.NUM_IN_SWARM * (self.POP_GROWTH_RATE  * random.uniform(0.75, 1.25))
             
             if (num_growth >= 1):
                 self.NUM_IN_SWARM += num_growth
