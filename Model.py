@@ -46,5 +46,5 @@ plt.plot(range(TIME), dataArr[:,4], 'y', label="Susceptible") # susceptible
 #plt.title("Percentage of Trees Burned by Probability")
 plt.xlabel("Time")
 plt.ylabel("Stats")
-plt.legend(loc=1, borderaxespad=0.)
+plt.legend(fontsize=8, loc=1, borderaxespad=0.)
 plt.show()
