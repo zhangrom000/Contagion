@@ -2,10 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import numpy as N
 import matplotlib
-import time as time
+import time
 
 
 """
+Class Visualize
+
 Plots a given grid, which is a 2D array of cells.
 
 Pop cell Filling:        
@@ -26,6 +28,11 @@ Environment Outlines:
         
 class Visualize(object):
         
+    """
+    init_plot
+    
+    Initialize this visualization of the Contagion simulation
+    """    
     def init_plot(self, gridObj):
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
@@ -115,7 +122,12 @@ class Visualize(object):
         return f, axarr
         
     
+    """
+    update_plot
     
+    Update the visualization based on the updated data of the simulation
+    
+    """
     def update_plot(self, gridObj, f, axarr):
         
         height = gridObj.GRID_HEIGHT
@@ -195,6 +207,11 @@ class Visualize(object):
         #plt.pause(0.4)
         plt.show()
         
+    """
+    plot_carriers
+    
+    Draw all carriers on the grid represented by dots
+    """    
     def plot_carriers(self, gridObj, list_of_carriers=[], show=True):
         """
         Carriers are represented as a dot that moves around cells.
