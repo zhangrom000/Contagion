@@ -32,7 +32,7 @@ class Visualize(object):
     Also inits the plot if not found
     
     """
-    def update_plot(self, gridObj, f = None, axarr = None):
+    def update_plot(self, gridObj, f = None, axarr = None, wait = True):
         
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
@@ -115,6 +115,7 @@ class Visualize(object):
             
             f.canvas.set_window_title('Contagion')
            
+        
         #- Update each grid    
         axarr[0].imshow(dataEnv, interpolation='none',
                 extent=[0, width, 0, height],
@@ -130,7 +131,7 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        plt.pause(0.4)
+        if wait: plt.pause(0.4)
         plt.show()
         
         return f, axarr
@@ -157,7 +158,7 @@ class Visualize(object):
         width = gridObj.GRID_WIDTH
         
         list_of_carriers = gridObj.CARRIERS
-        list_of_travelers = gridObj.TRAVELERS
+        list_of_travelers = gridObj.TRAVELLERS
         
         carriers_x = np.zeros(len(list_of_carriers))
         carriers_y = np.zeros(len(list_of_carriers))
@@ -169,36 +170,6 @@ class Visualize(object):
             carriers_x[i] = list_of_carriers[i].x + .5
             carriers_y[i] = width - list_of_carriers[i].y - .5
         
-        scat = plt.scatter(carriers_x, carriers_y, c='y')        
-        plt.show()
-        return scat     
-    
-    """
-    plot_travelers
-    
-    Draw all travelers on the grid represented by x's
-    """
-    def plot_travelers(self, gridObj, list_of_travelers=[], show=True):
-        """
-        Travelers are represented as a dot that moves around cells.
-        """
-        #takes top_grid and overlay on top of all env_grids
-        #takes list_of_carriers and represents them as dots
-        #add color to dots
-        #update dot movement/merging as they travel through env_grids
-        #update dot color fade as carrier data changes
-        
-        height = gridObj.GRID_HEIGHT
-        width = gridObj.GRID_WIDTH
-        
-        travelers_x = np.zeros(len(list_of_travelers))
-        travelers_y = np.zeros(len(list_of_travelers))
-        
-        for i in range(len(list_of_travelers)):
-            travelers_x[i] = list_of_travelers[i].x + .5
-            travelers_y[i] = width - list_of_travelers[i].y - .5
-        
-        scat = plt.scatter(travelers_x, travelers_y, c='b', marker = "x")        
         for j in range(len(list_of_travelers)):
             travelers_x[j] = list_of_travelers[j].x + .5
             travelers_y[j] = width - list_of_travelers[j].y - .5
