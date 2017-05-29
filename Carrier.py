@@ -106,7 +106,6 @@ class Carrier(object):
             self.NUM_IN_SWARM -= new_swarm
             env_grid.addCarrier(self.x, self.y, new_swarm)       
     
-<<<<<<< HEAD
     """
     Infect
     
@@ -117,9 +116,13 @@ class Carrier(object):
         pass
         
        
-=======
+    """
+    die
+    
+    Decrement num in this Carrier swarm. "Kill off" some of the individuals 
+    in the swarm
+    """
     def die(self,env_grid):    
         if (env_grid.getCell([self.x, self.y]).ENV_TYPE == 0):
             self.NUM_IN_SWARM -= self.NUM_IN_SWARM * \
             (self.LIFESPAN + self.POP_GROWTH_RATE)
->>>>>>> origin/master

@@ -7,30 +7,14 @@ the simulation such as: duration, the grid, metrics, and graphical outputs.
 #Infection will take into acount base probability, number of infected
 #rats and humans, population density, pollution level, resource availability,
 # and whether the cell is quarantined or not.
-"""
-Class Model
-
-The driver for the Contagion simulation. Contains data relevant to the maintenance
-the simulation such as: duration, the grid, metrics, and graphical outputs.
-"""
-
-#### Model ####
-
-#Infection will take into acount base probability, number of infected
-#rats and humans, population density, pollution level, resource availability,
-# and whether the cell is quarantined or not.
-
 
 import numpy as N
 import matplotlib.pyplot as plt
 from Grid import Grid
 from Visualize import Visualize
 
-<<<<<<< HEAD
 TIMELINE = 1000 #Timestep duration of this simulation
-=======
 TIMELINE = 365 * 3 #Timestep duration of the model
->>>>>>> origin/master
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 #

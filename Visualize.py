@@ -261,11 +261,11 @@ class Visualize(object):
         return scat     
     
     """
-    plot_travellers
+    plot_travelers
     
     Draw all travelers on the grid represented by x's
     """
-    def plot_travellers(self, gridObj, list_of_travellers=[], show=True):
+    def plot_travelers(self, gridObj, list_of_travelers=[], show=True):
         """
         Travelers are represented as a dot that moves around cells.
         """
@@ -278,13 +278,13 @@ class Visualize(object):
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
         
-        travellers_x = np.zeros(len(list_of_travellers))
-        travellers_y = np.zeros(len(list_of_travellers))
+        travelers_x = np.zeros(len(list_of_travelers))
+        travelers_y = np.zeros(len(list_of_travelers))
         
-        for i in range(len(list_of_travellers)):
-            travellers_x[i] = list_of_travellers[i].x + .5
-            travellers_y[i] = width - list_of_travellers[i].y - .5
+        for i in range(len(list_of_travelers)):
+            travelers_x[i] = list_of_travelers[i].x + .5
+            travelers_y[i] = width - list_of_travelers[i].y - .5
         
-        scat = plt.scatter(travellers_x, travellers_y, c='b', marker = "x")        
+        scat = plt.scatter(travelers_x, travelers_y, c='b', marker = "x")        
         plt.show()
         return scat  
