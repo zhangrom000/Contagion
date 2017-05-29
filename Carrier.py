@@ -13,7 +13,7 @@ class Carrier(object):
     NUM_IN_SWARM = 10 #Number of carriers in this carrier
     #MOBILITY = 0.5 #Ability to travel
     INFECTED = True #Bool
-    INFECTION_RATE = 0.9 #Infectious rate, higher rate means more likely to infect.
+    INFECTION_RATE = 0.1 #Infectious rate, higher rate means more likely to infect.
     LIFESPAN = 10 #Counts the lifespan of the rats.  Becoming infected will cut the lifespan.
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
     POP_GROWTH_RATE = 0.1 #Percentage growth rate of this agent. The agent will eventually split.
@@ -54,20 +54,20 @@ class Carrier(object):
         possible_moves = []
     
         if (self.NORTH[1] < env_grid.GRID_HEIGHT and
-            env_grid.getCell(self.NORTH).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.NORTH).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.NORTH)
         if (self.EAST[0] < env_grid.GRID_WIDTH and 
-            env_grid.getCell(self.EAST).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.EAST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.EAST)
         if (self.SOUTH[1] > 0 and 
-            env_grid.getCell(self.SOUTH).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.SOUTH).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.SOUTH)
         if (self.WEST[0] > 0 and 
-            env_grid.getCell(self.WEST).TOTAL_POP >=
-            env_grid.getCell([self.x, self.y]).TOTAL_POP):
+            env_grid.getCell(self.WEST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.WEST)
         
         possible_moves = np.array(possible_moves)

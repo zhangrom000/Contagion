@@ -14,7 +14,7 @@ class Cell(object):
     
     ENV_TYPE = 4
     
-    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 14, quarantined = 'False', carrierList = []):
+    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 20, quarantined = 'False', carrierList = []):
         #### Variables ####
         if (density == 'City'):
             self.ENV_TYPE = 1
@@ -38,11 +38,11 @@ class Cell(object):
             
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
-        self.TOTAL_POP = self.INITIAL_POP
+        self.TOTAL_SUSCEPTIBLE = self.INITIAL_POP
         self.AFFLUENCE = rand.random()
         self.POLLUTION = rand.random()
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
-        self.RECOVER_PROBABILITY = 0.05 #Percentage of population recovered after end of lifespan
+        self.RECOVER_PROBABILITY = 0.2 #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0#Total Dead Population of cell
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
         self.LIFESPAN = lifespan #Lifespan (in days) an infected human. 
@@ -77,11 +77,13 @@ class Cell(object):
         
         ## Infection ##
         infected = self.infect_rate()
+        if infected > 0:
+            print infected
         self.TOTAL_INFECTED += infected
         self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] = infected
-        self.TOTAL_POP -= infected
+        self.TOTAL_SUSCEPTIBLE -= infected
         
-        return self.TOTAL_DEAD, self.TOTAL_INFECTED, (self.TOTAL_POP + self.TOTAL_RECOVERED)
+        return self.TOTAL_DEAD, self.TOTAL_INFECTED, (self.TOTAL_SUSCEPTIBLE + self.TOTAL_RECOVERED), self.TOTAL_RECOVERED, self.TOTAL_SUSCEPTIBLE
         
     """
     infect_rate
@@ -95,7 +97,7 @@ class Cell(object):
         infect_prob = Carrier.INFECTION_RATE * self.DENSITY
         numToInfect = int((self.carriers_In_Cell() * infect_prob) \
                           + (self.TOTAL_INFECTED * infect_prob))
-        numToInfect = min(numToInfect, self.TOTAL_POP)
+        numToInfect = min(numToInfect, self.TOTAL_SUSCEPTIBLE)
         return numToInfect
     """
     recover_rate
