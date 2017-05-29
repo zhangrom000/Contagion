@@ -13,8 +13,8 @@ Plots a given grid, which is a 2D array of cells.
 Pop cell Filling:        
     100% Healthy = solid green
     100% Infected = solid red
-    100% alive = white
-    100% dead (0 population) = black
+    100% Alive = white
+    100% Dead (0 population) = black
     
 Cell fades from green to red as population gets infected.
 Cell fades to darker color as population dies.
@@ -242,3 +242,32 @@ class Visualize(object):
         scat = plt.scatter(carriers_x, carriers_y, c='y')        
         plt.show()
         return scat     
+    
+    """
+    plot_travellers
+    
+    Draw all travelers on the grid represented by x's
+    """
+    def plot_travellers(self, gridObj, list_of_travellers=[], show=True):
+        """
+        Travelers are represented as a dot that moves around cells.
+        """
+        #takes top_grid and overlay on top of all env_grids
+        #takes list_of_carriers and represents them as dots
+        #add color to dots
+        #update dot movement/merging as they travel through env_grids
+        #update dot color fade as carrier data changes
+        
+        height = gridObj.GRID_HEIGHT
+        width = gridObj.GRID_WIDTH
+        
+        travellers_x = np.zeros(len(list_of_travellers))
+        travellers_y = np.zeros(len(list_of_travellers))
+        
+        for i in range(len(list_of_travellers)):
+            travellers_x[i] = list_of_travellers[i].x + .5
+            travellers_y[i] = width - list_of_travellers[i].y - .5
+        
+        scat = plt.scatter(travellers_x, travellers_y, c='b', marker = "x")        
+        plt.show()
+        return scat  
