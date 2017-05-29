@@ -22,9 +22,13 @@ class Carrier(object):
     
     #### Neighbors ####
     NORTH = [x, y + 1]
+    NORTHEAST = [x + 1, y + 1]
     EAST = [x + 1, y]
+    SOUTHEAST = [x + 1, y - 1]
     SOUTH = [x, y - 1]
+    SOUTHWEST = [x - 1, y - 1]
     WEST =[x - 1, y]
+    NORTHWEST =[x - 1, y + 1]
     
     """
     __init__
@@ -48,9 +52,13 @@ class Carrier(object):
     """
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
+        self.NORTHEAST = [self.x + 1, self.y + 1]
         self.EAST = [self.x + 1, self.y]
+        self.SOUTHEAST = [self.x + 1, self.y - 1]
         self.SOUTH = [self.x, self.y - 1]
+        self.SOUTHWEST = [self.x - 1, self.y - 1]
         self.WEST =[self.x - 1, self.y]
+        self.NORTHWEST =[self.x - 1, self.y + 1]
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE):
             self.NUM_IN_SWARM = self.NUM_IN_SWARM * (1 + self.POP_GROWTH_RATE)
         
@@ -75,22 +83,39 @@ class Carrier(object):
             env_grid.getCell(self.NORTH).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.NORTH)
+        if (self.NORTH[1] < env_grid.GRID_HEIGHT and self.EAST[0] < env_grid.GRID_WIDTH and
+            env_grid.getCell(self.NORTHEAST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
+            possible_moves.append(self.NORTHEAST)    
         if (self.EAST[0] < env_grid.GRID_WIDTH and 
             env_grid.getCell(self.EAST).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.EAST)
+        if (self.SOUTH[1] >= 0 and self.EAST[0] < env_grid.GRID_WIDTH and
+            env_grid.getCell(self.SOUTHEAST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
+            possible_moves.append(self.SOUTHEAST)
         if (self.SOUTH[1] >= 0 and 
             env_grid.getCell(self.SOUTH).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.SOUTH)
+        if (self.SOUTH[1] >= 0 and self.WEST[0] >= 0 and
+            env_grid.getCell(self.SOUTHWEST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
+            possible_moves.append(self.SOUTHWEST)
         if (self.WEST[0] >= 0 and 
             env_grid.getCell(self.WEST).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.WEST)
+        if (self.NORTH[1] < env_grid.GRID_HEIGHT and self.WEST[0] >= 0 and
+            env_grid.getCell(self.NORTHWEST).TOTAL_SUSCEPTIBLE >=
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
+            possible_moves.append(self.NORTHWEST)
         
         possible_moves = np.array(possible_moves)
     
         if (np.size(possible_moves) > 0):
+            
             move = possible_moves[np.random.choice(possible_moves.shape[0])]
             self.x = move[0]
             self.y = move[1]
