@@ -2,7 +2,7 @@ import numpy as N
 
 from Cell import Cell
 from Carrier import Carrier
-from Traveller import Traveller
+from Traveler import Traveler
 
 class Grid(object):
     #### Variables ####
@@ -54,7 +54,7 @@ class Grid(object):
     QUARANTINE_MAX = 1 #Number of infected to implement Quarantine
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
-    TRAVELLERS = []
+    TRAVELERS = []
     TRAVEL_LOC = []
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
@@ -95,7 +95,7 @@ class Grid(object):
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
                     #self.addCarrier(x, y)
         for i in range(4):
-            self.TRAVELLERS.append(Traveller())
+            self.TRAVELERS.append(Traveler())
         
     def addCarrier(self, x, y, numSwarm):
         hold = Carrier()
@@ -110,8 +110,8 @@ class Grid(object):
         alive = 0
         recovered = 0
         susceptible = 0
-        for i in range(len(self.TRAVELLERS)):
-            self.TRAVELLERS[i].move(self)
+        for i in range(len(self.TRAVELERS)):
+            self.TRAVELERS[i].move(self)
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             

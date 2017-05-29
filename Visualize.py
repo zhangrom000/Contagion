@@ -131,7 +131,7 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        if wait: plt.pause(0.4)
+        #if wait: plt.pause(0.4)
         plt.show()
         
         return f, axarr
