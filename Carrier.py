@@ -14,7 +14,7 @@ class Carrier(object):
     #MOBILITY = 0.5 #Ability to travel
     INFECTED = True #Bool
     INFECTION_RATE = 0.1 #Infectious rate, higher rate means more likely to infect.
-    LIFESPAN = .05 #Percentage of swarm lost each timestep
+    LIFESPAN = .1 #Percentage of swarm lost each timestep
     MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
     POP_GROWTH_RATE = 0.2 #Percentage growth rate of this agent. The agent will eventually split.
     x = 1 #x location in grid
@@ -121,7 +121,7 @@ class Carrier(object):
             env_grid.addCarrier(self.x, self.y, new_swarm)       
     
     def die(self,env_grid):    
-        if (env_grid.getCell([self.x, self.y]).ENV_TYPE == 0):
+        if (env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE == 0):
             
             num_dead = self.NUM_IN_SWARM * \
             (self.LIFESPAN) + 1
@@ -131,7 +131,7 @@ class Carrier(object):
                 
     def grow(self, env_grid):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE and
-            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > 1):
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > 0):
             
             num_growth = self.NUM_IN_SWARM * self.POP_GROWTH_RATE
             
