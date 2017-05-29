@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from Grid import Grid
 from Visualize import Visualize
 
-TIMELINE = 1000 #Time of the model
+TIMELINE = 365 * 3 #Time of the model
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 #
@@ -24,7 +24,7 @@ G.init()
 f, axs = V.init_plot(G)
 scat = V.plot_carriers(G, G.CARRIERS)
 for dt in range(TIME):
-    #print dt
+    print dt
     dead, infected, alive, recovered, susceptible = G.updateGrid()
     #print infected
     dataArr[dt][0] = dead

@@ -77,8 +77,6 @@ class Cell(object):
         
         ## Infection ##
         infected = self.infect_rate()
-        if infected > 0:
-            print infected
         self.TOTAL_INFECTED += infected
         self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] = infected
         self.TOTAL_SUSCEPTIBLE -= infected

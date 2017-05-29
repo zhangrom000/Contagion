@@ -28,8 +28,11 @@ class Traveller(object):
     def getNewDestination(self, grid):
         num = len(grid.TRAVEL_LOC)
         i = 1
-        dest = np.random.choice(grid.TRAVEL_LOC, 1)
-        while (float(grid.GRID[dest[0]][dest[1]].TOTAL_DEAD / (grid.GRID[dest[0]][dest[1]].TOTAL_SUSECPTIBLE + grid.GRID[dest[0]][dest[1]].TOTAL_RECOVERED))) > .5 and i < num:
-            dest = np.random.choice(grid.TRAVEL_LOC, 1)
+        index = range(len(grid.TRAVEL_LOC))
+        n = np.random.choice(index, 1)
+        dest = grid.TRAVEL_LOC[n]
+        while (grid.GRID[dest[0]][dest[1]].INITIAL_POP != 0 or float(grid.GRID[dest[0]][dest[1]].TOTAL_DEAD / (grid.GRID[dest[0]][dest[1]].TOTAL_SUSCEPTIBLE + grid.GRID[dest[0]][dest[1]].TOTAL_RECOVERED + 0.001))) > .5 and i < num:
+            n = np.random.choice(index, 1)
+            dest = grid.TRAVEL_LOC[n]
             i += 1
         self.destination = dest
