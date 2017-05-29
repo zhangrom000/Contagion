@@ -2,6 +2,7 @@ import numpy as N
 
 from Cell import Cell
 from Carrier import Carrier
+from Traveller import Traveller
 
 class Grid(object):
     #### Variables ####
@@ -53,6 +54,8 @@ class Grid(object):
     QUARANTINE_MAX = 1 #Number of infected to implement Quarantine
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
+    TRAVELLERS = []
+    TRAVEL_LOC = []
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
         
@@ -69,16 +72,19 @@ class Grid(object):
                     #self.GRID[x][y] = self.CITY
                     self.GRID[x][y]= Cell(x, y, 'City')
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
+                        self.TRAVEL_LOC.append([[x,y]])
                         for i in range(self.MAX_CARRIERS):
                             self.addCarrier(x, y, 10)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
                     self.GRID[x][y]= Cell(x, y, 'Suburban')
+                    self.TRAVEL_LOC.append([[x,y]])
                     #Initialize Suburban cell
                 elif rand[2] <= self.RURAL_PROB:
                     #self.GRID[x][y] = self.RURAL
                     self.GRID[x][y]= Cell(x, y, 'Rural')
+                    self.TRAVEL_LOC.append([[x,y]])
                     #Initialize Rural cell
                 elif rand[3] <= self.BARRIER_PROB:
                     #self.GRID[x][y] = self.BARRIER
@@ -87,7 +93,9 @@ class Grid(object):
                     #self.GRID[x][y] = self.LAND
                     self.GRID[x][y]= Cell(x, y, 'Land')
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
-                    #self.addCarrier(x, y)  
+                    #self.addCarrier(x, y)
+        for i in range(4):
+            self.TRAVELLERS.append(Traveller())
         
     def addCarrier(self, x, y, numSwarm):
         hold = Carrier()
@@ -102,7 +110,9 @@ class Grid(object):
         alive = 0
         recovered = 0
         susceptible = 0
-        for i in range(len(self.CARRIERS)):
+        for i in range(len(self.TRAVELLERS)):
+            #self.TRAVELLERS[i].move(self)
+        #for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
         for i in range(self.GRID_WIDTH):

@@ -53,19 +53,19 @@ class Carrier(object):
         # move in a direction        
         possible_moves = []
     
-        if (self.NORTH[1] < env_grid.GRID_HEIGHT and
+        if (self.NORTH[1] <= env_grid.GRID_HEIGHT and
             env_grid.getCell(self.NORTH).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.NORTH)
-        if (self.EAST[0] < env_grid.GRID_WIDTH and 
+        if (self.EAST[0] <= env_grid.GRID_WIDTH and 
             env_grid.getCell(self.EAST).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.EAST)
-        if (self.SOUTH[1] > 0 and 
+        if (self.SOUTH[1] >= 0 and 
             env_grid.getCell(self.SOUTH).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.SOUTH)
-        if (self.WEST[0] > 0 and 
+        if (self.WEST[0] >= 0 and 
             env_grid.getCell(self.WEST).TOTAL_SUSCEPTIBLE >=
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE):
             possible_moves.append(self.WEST)

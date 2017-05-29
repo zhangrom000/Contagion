@@ -1,0 +1,35 @@
+import numpy as np
+
+class Traveller(object):
+    
+    x = 0
+    y = 0
+    destination = [0,0]
+    speed = 1
+    
+    def __init__(self, x_init=0, y_init=0, dest=[0,0], spd=1):
+        self.x = x_init
+        self.y = y_init
+        self.destination = dest
+        self.speed = spd
+                
+    def move(self, grid):
+        if self.x == self.destination[0] and self.y == self.destination[1]:
+            self.getNewDestination(grid)
+        if self.destination[0] > self.x:
+            self.x += 1
+        if self.destination[0] < self.x:
+            self.x -= 1
+        if self.destination[1] > self.y:
+            self.y += 1
+        if self.destination[1] < self.y:
+            self.y -= 1
+    
+    def getNewDestination(self, grid):
+        num = len(grid.TRAVEL_LOC)
+        i = 1
+        dest = np.random.choice(grid.TRAVEL_LOC, 1)
+        while (float(grid.GRID[dest[0]][dest[1]].TOTAL_DEAD / (grid.GRID[dest[0]][dest[1]].TOTAL_SUSECPTIBLE + grid.GRID[dest[0]][dest[1]].TOTAL_RECOVERED))) > .5 and i < num:
+            dest = np.random.choice(grid.TRAVEL_LOC, 1)
+            i += 1
+        self.destination = dest
