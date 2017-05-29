@@ -110,9 +110,9 @@ class Grid(object):
         alive = 0
         recovered = 0
         susceptible = 0
-        for i in range(len(self.TRAVELLERS)):
+        #for i in range(len(self.TRAVELLERS)):
             #self.TRAVELLERS[i].move(self)
-        #for i in range(len(self.CARRIERS)):
+        for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
         for i in range(self.GRID_WIDTH):

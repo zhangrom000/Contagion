@@ -63,8 +63,8 @@ class Visualize(object):
 
 
                     # Setup the Infected color grid
-                    if cell.TOTAL_POP == 0: infRatio = 0
-                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
+                    if cell.TOTAL_SUSCEPTIBLE == 0: infRatio = 0
+                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_SUSCEPTIBLE
                     infColor = int(infRatio * 9) # convert inf ratio to integer
                     temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
                     dataInf[i, j, :] = temp[:]  
@@ -166,7 +166,7 @@ class Visualize(object):
                     elif cell.INITIAL_POP == cell.TOTAL_DEAD: # Check if all dead
                         temp = N.array( convert.to_rgb( cDead ) )                       
                     else:
-                        infRatio = float(cell.TOTAL_INFECTED + cell.TOTAL_DEAD) / float(cell.TOTAL_POP + cell.TOTAL_RECOVERED + cell.TOTAL_INFECTED + cell.TOTAL_DEAD)
+                        infRatio = float(cell.TOTAL_INFECTED + cell.TOTAL_DEAD) / float(cell.TOTAL_SUSCEPTIBLE + cell.TOTAL_RECOVERED + cell.TOTAL_INFECTED + cell.TOTAL_DEAD)
                         infColor = int(infRatio * 9) # convert inf ratio to integer
                         if infColor > 9 or infColor < 0: infColor = 9 # Error check for out of bounds
                         temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
@@ -192,7 +192,7 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        plt.pause(0.4)
+        #plt.pause(0.4)
         plt.show()
         
     def plot_carriers(self, gridObj, list_of_carriers=[], show=True):
