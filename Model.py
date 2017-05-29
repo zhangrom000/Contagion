@@ -29,7 +29,7 @@ G.init() #Initialize the grid
 f, axs = V.update_plot(G)
 carrierScatter,travelerScatter = V.plot_agents(G)
 for dt in range(TIME):
-    print dt
+    print (str(dt) + " step and Carriers: " +  str(len(G.CARRIERS)))
     dead, infected, alive, recovered, susceptible = G.updateGrid()
     #print infected
     dataArr[dt][0] = dead
@@ -42,13 +42,16 @@ for dt in range(TIME):
     travelerScatter.remove()
     carrierScatter,travelerScatter = V.plot_agents(G)
     V.update_plot(G, f, axs)
+    if len(G.CARRIERS) == 0: 
+        TIME = dt
+        break
     
 plt.figure("Stats")
-plt.plot(range(TIME), dataArr[:,0], 'k', label="Dead") # dead
-plt.plot(range(TIME), dataArr[:,1], 'r', label="Infected") # infected
-plt.plot(range(TIME), dataArr[:,2], 'g', label="Alive") # alive
-plt.plot(range(TIME), dataArr[:,3], 'b', label="Recovered") # recovered
-plt.plot(range(TIME), dataArr[:,4], 'y', label="Susceptible") # susceptible
+plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") # dead
+plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") # infected
+plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") # alive
+plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") # recovered
+plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") # susceptible
 #plt.title("Percentage of Trees Burned by Probability")
 plt.xlabel("Time (days)")
 plt.ylabel("Stats")
