@@ -145,8 +145,8 @@ class Grid(object):
         susceptible = 0
         
         #Update all the Carriers in this Grid       
-        for i in range(len(self.TRAVELLERS)):
-            self.TRAVELLERS[i].move(self)
+        for i in range(len(self.TRAVELERS)):
+            self.TRAVELERS[i].move(self)
         #Update all the Carriers in this Grid        
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)

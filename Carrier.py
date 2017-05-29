@@ -113,15 +113,24 @@ class Carrier(object):
             possible_moves.append(self.NORTHWEST)
         
         possible_moves = np.array(possible_moves)
-    
+        if (env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE + env_grid.getCell([self.x, self.y]).TOTAL_RECOVERED) == 0:
+            travProb = 1
+        else:
+            travProb = 0.4
+        travelers = []
         if (np.size(possible_moves) > 0):
             for i in env_grid.TRAVELERS:
                 for j in possible_moves:
-                    if [env_grid.TRAVLERS[i].x, env_grid.TRAVLERS[i].y] == possible_moves[j]:
-                        print "true"
-            move = possible_moves[np.random.choice(possible_moves.shape[0])]
-            self.x = move[0]
-            self.y = move[1]
+                    if i.x == j[0] and i.y == j[1] and np.random.random() < travProb:
+                        travelers.append(i)
+            if len(travelers) != 0:
+                hold = np.random.choice(travelers)
+                self.x = hold.x
+                self.y = hold.y
+            else:
+                move = possible_moves[np.random.choice(possible_moves.shape[0])]
+                self.x = move[0]
+                self.y = move[1]
     
     """
     split

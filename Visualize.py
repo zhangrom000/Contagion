@@ -158,7 +158,7 @@ class Visualize(object):
         width = gridObj.GRID_WIDTH
         
         list_of_carriers = gridObj.CARRIERS
-        list_of_travelers = gridObj.TRAVELLERS
+        list_of_travelers = gridObj.TRAVELERS
         
         carriers_x = np.zeros(len(list_of_carriers))
         carriers_y = np.zeros(len(list_of_carriers))
