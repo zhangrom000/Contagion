@@ -63,8 +63,8 @@ class Visualize(object):
 
 
                     # Setup the Infected color grid
-                    if cell.TOTAL_POP == 0: infRatio = 0
-                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_POP
+                    if cell.TOTAL_SUSCEPTIBLE == 0: infRatio = 0
+                    else: infRatio = cell.TOTAL_INFECTED / cell.TOTAL_SUSCEPTIBLE
                     infColor = int(infRatio * 9) # convert inf ratio to integer
                     temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio
                     dataInf[i, j, :] = temp[:]  
@@ -162,9 +162,9 @@ class Visualize(object):
                     if cell.INITIAL_POP == 0: 
                         temp = N.array( convert.to_rgb( cEmpty ) ) # grab the hex code belonging to that pop ratio
                     else: 
-                        if cell.TOTAL_POP == 0: infRatio = 0
-                        else: infRatio = float(cell.TOTAL_INFECTED) / float(cell.TOTAL_POP)
-#                       if cell.TOTAL_INFECTED != 0 and cell.TOTAL_POP != 0: print(str(cell.TOTAL_INFECTED) + " inf and TOTAL_POP: " + str(cell.TOTAL_POP) + " and ratio: " + str(infRatio))
+                        if cell.TOTAL_SUSCEPTIBLE == 0: infRatio = 0
+                        else: infRatio = float(cell.TOTAL_INFECTED) / float(cell.TOTAL_SUSCEPTIBLE + cell.TOTAL_INFECTED + cell.TOTAL_RECOVERED)
+                        #if cell.TOTAL_INFECTED != 0 and cell.TOTAL_SUSCEPTIBLE != 0: print(str(cell.TOTAL_INFECTED) + " inf and TOTAL_SUSCEPTIBLE: " + str(cell.TOTAL_SUSCEPTIBLE) + " and ratio: " + str(infRatio))
                         infColor = int(infRatio * 9) # convert inf ratio to integer
                         if infColor > 9 or infColor < 0: infColor = 9
                         temp = N.array( convert.to_rgb( cInfMap[infColor] ) ) # grab the hex code belonging to that inf ratio

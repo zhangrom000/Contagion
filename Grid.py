@@ -100,17 +100,21 @@ class Grid(object):
         dead = 0
         infected = 0
         alive = 0
+        recovered = 0
+        susceptible = 0
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
             
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
-                d, inf, a = self.GRID[i][j].update_population(self.CARRIERS)
+                d, inf, a, r, s = self.GRID[i][j].update_population(self.CARRIERS)
                 dead += d
                 infected += inf
-                alive += a        
+                alive += a    
+                recovered += r
+                susceptible += s    
                 
-        return dead, infected, alive
+        return dead, infected, alive, recovered, susceptible
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
