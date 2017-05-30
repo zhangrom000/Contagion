@@ -24,7 +24,7 @@ travelers = True
 gridType = 0
 plagueType = 0 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
 numSims = 25
-multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
+multipleSims = 2 #0 for one run, 1 for multiple, 2 for full test
 
 ########################
 
@@ -84,7 +84,7 @@ def singleRun(TIME, travelers, gridType, plagueType):
 def multipleRuns(TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     for run in range(numSims):
-        G.init(travelers, gridType, plagueType) #Initialize the grid
+        G.init(travelers, gridType) #Initialize the grid
         print run
         for dt in range(TIME):
             dead, infected, alive, recovered, susceptible, carriers = \
@@ -139,7 +139,7 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     print name
     for run in range(numSims):
-        G.init(travelers, gridType, plagueType) #Initialize the grid
+        G.init(travelers, gridType) #Initialize the grid
         print run
         for dt in range(TIME):
             print dt
