@@ -49,15 +49,15 @@ class Grid(object):
     Initialize the lists of objects contained within this Grid.
     """
 
-    def init(self, travelers=True, gridDensity=0):
+    def init(self, travelers=True, gridDensity=0, plague=0):
         #A grid of cells
         self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell)
         self.TRAVELERS = []
         self.TRAVEL_LOC = []
         self.CARRIERS = [] #An array of all the carriers
-        #self.useTravelers = travelers
-        #self.plagueType = plague
-        #self.gridType = gridDensity
+        self.useTravelers = travelers
+        self.plagueType = plague
+        self.gridType = gridDensity
         if self.useTravelers == True:
             self.MAX_TRAVELERS = 8
         else:
