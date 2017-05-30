@@ -116,7 +116,7 @@ class Cell(object):
         
         
         ## Death ##
-        if self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] > 0:
+        if self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] >= 0:
             recovered = int(self.INFECTED_ARR[self.currentTimeStep % \
                                     self.LIFESPAN] * self.RECOVER_PROBABILITY)
                                     

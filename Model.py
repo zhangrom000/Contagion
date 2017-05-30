@@ -22,7 +22,7 @@ TIME = (int) (TIMELINE / DT)
 graph = True #Play the results in real time for single run
 travelers = True
 gridType = 0 #0=Base, 1=Low Density, 2=High Density
-plagueType = 2 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
+plagueType = 0 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
 numSims = 40
 multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
 
@@ -158,7 +158,7 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
         G.init(travelers, gridType, plagueType) #Initialize the grid
         print run
         for dt in range(TIME):
-            print dt
+            #print dt
             dead, infected, alive, recovered, susceptible, carriers = \
                                                                 G.updateGrid()
             dataArr[dt][0] += dead
