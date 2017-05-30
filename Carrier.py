@@ -11,11 +11,23 @@ import random
 class Carrier(object):
     #### Variables ####
     NUM_IN_SWARM = np.random.randint(1, 6)  #Number of carriers in this carrier
-    #MOBILITY = 0.5 #Ability to travel
-    INFECTION_RATE = 0.025 #Infectious rate, higher rate means more likely to infect.
-    LIFESPAN = .1 #Percentage of swarm lost each timestep
-    MAX_SWARM_SIZE = 100 #Max number in swarm before the agent splits.
-    POP_GROWTH_RATE = 0.05 #Percentage growth rate of this agent. The agent will eventually split.
+    #MOBILITY = 0.5 #Ability to travel    
+    
+    # Premade Contagions - DO NOT EDIT TO TEST OTHER CONTAGIONS.
+    BLACK_PLAGUE = {'INFECTION_RATE': 0.05, 'LIFESPAN': 0.1, 'MAX_SWARM_SIZE': 100, 'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY': 0.2, 'LIFESPAN_INF': 20}
+    JUSTINIAN_PLAGUE = {'INFECTION_RATE': 0.1, 'LIFESPAN': 0.6, 'MAX_SWARM_SIZE': 1000, 'POP_GROWTH_RATE': 0.15, 'RECOVER_PROBABILITY': 0, 'LIFESPAN_INF': 5}
+    MODERN_PLAGUE = {'INFECTION_RATE': 0.075, 'LIFESPAN': 0.1, 'MAX_SWARM_SIZE': 100, 'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY': 0.2, 'LIFESPAN_INF': 20}
+    
+    # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
+    CONTAGION = JUSTINIAN_PLAGUE
+
+    INFECTION_RATE = CONTAGION['INFECTION_RATE'] #Infectious rate, higher rate means more likely to infect.
+    LIFESPAN = CONTAGION['LIFESPAN'] #Percentage of swarm lost each timestep
+    MAX_SWARM_SIZE = CONTAGION['MAX_SWARM_SIZE'] #Max number in swarm before the agent splits.
+    POP_GROWTH_RATE = CONTAGION['POP_GROWTH_RATE'] #Percentage growth rate of this agent. The agent will eventually split.
+    RECOVER_PROBABILITY = CONTAGION['RECOVER_PROBABILITY'] # Percentage of population recovered after end of lifespan
+    LIFESPAN_INF = CONTAGION['LIFESPAN_INF'] #Lifespan (in days) of an infected human.
+    
     x = 1 #x location in grid
     y = 1 #y location in grid
     
@@ -128,7 +140,7 @@ class Carrier(object):
                 
     def grow(self, env_grid):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE and
-            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > 0):
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > self.NUM_IN_SWARM): # If the cell can sustain it
             
             num_growth = self.NUM_IN_SWARM * (self.POP_GROWTH_RATE  * random.uniform(0.75, 1.25))
             
