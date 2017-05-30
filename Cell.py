@@ -4,17 +4,13 @@ import numpy.random as rand
 from Carrier import Carrier
 """
 Class Cell
+
 Represents a population of people and corresponding population density type 
 encapsulated in a single X-Y coordinate on the overall grid.
 A Cell with a population contains metrics of the population: number of 
-<<<<<<< HEAD
 total living people in the population, number of infected people, lifespan of infected people 
 in this cell, and the history of the population metrics per each time step of
-=======
-total living people in the population, number of infected people, lifespan of 
-infected people, and the history of the population metrics per each time step of
->>>>>>> origin/master
-the simulation.
+the simulation
 """
 class Cell(object):
     
