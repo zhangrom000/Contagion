@@ -76,7 +76,7 @@ class Cell(object):
         
         
         self.INFECTED_ARR = np.zeros(self.LIFESPAN) 
-        self.REINFECTION = 45
+        self.REINFECTION = self.temp_carrier.REINFECTION
         self.RECOVERED_ARR = np.zeros(self.REINFECTION)
         
         #Array of Carriers at the same x-y coordinate as this Cell

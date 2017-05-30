@@ -19,11 +19,11 @@ from Visualize import Visualize
 TIMELINE = 365 * 3 #Timestep duration of this simulation
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
-graph = False #Play the results in real time for single run
+graph = True #Play the results in real time for single run
 travelers = True
-gridType = 0
-plagueType = 0 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
-numSims = 25
+gridType = 0 #0=Base, 1=Low Density, 2=High Density
+plagueType = 2 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
+numSims = 40
 multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
 
 ########################
