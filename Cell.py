@@ -4,17 +4,16 @@ import numpy.random as rand
 from Carrier import Carrier
 """
 Class Cell
+
 Represents a population of people and corresponding population density type 
 encapsulated in a single X-Y coordinate on the overall grid.
 A Cell with a population contains metrics of the population: number of 
-<<<<<<< HEAD
-total living people in the population, number of infected people, lifespan of infected people 
-in this cell, and the history of the population metrics per each time step of
-=======
 total living people in the population, number of infected people, lifespan of 
-infected people, and the history of the population metrics per each time step of
->>>>>>> origin/master
-the simulation.
+infected people in this cell, and the history of the population metrics per 
+each time step of the simulation
+
+@authors Austen Harp, Garret King, Alex Tang, Roman Zhang
+Made for use in the Contagion 
 """
 class Cell(object):
     
@@ -23,10 +22,12 @@ class Cell(object):
     """
     __init__
     
-    Initialize this Cell: x-y coordinate on grid, environment type, lifespan of population, etc
+    Initialize this Cell: x-y coordinate on grid, environment type, 
+    lifespan of population, etc
     """
-    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 20, quarantined = 'False', carrierList = []):
-        #### Variables ####
+    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 20, \
+                                    quarantined = 'False', carrierList = []):
+        
         if (density == 'City'):
             self.ENV_TYPE = 1
             self.INITIAL_POP = 10000 * random.uniform(0.75, 1.25)
@@ -47,32 +48,47 @@ class Cell(object):
             self.INITIAL_POP = 0
             self.DENSITY = 0
             
-            
-        self.RECOVER_PROBABILITY = Carrier.RECOVER_PROBABILITY # Percentage of population recovered after end of lifespan
-        self.LIFESPAN = Carrier.LIFESPAN_INF #Lifespan (in days) an infected human. 
+        # Percentage of population recovered after end of lifespan
+        self.RECOVER_PROBABILITY = Carrier.RECOVER_PROBABILITY 
+        
+        #Lifespan (in days) an infected human.
+        self.LIFESPAN = Carrier.LIFESPAN_INF  
         
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
         self.TOTAL_SUSCEPTIBLE = self.INITIAL_POP
         self.AFFLUENCE = rand.random()
         self.POLLUTION = rand.random()
-        self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
+        
+        #Number of infected that have recovered from the contagion
+        self.TOTAL_RECOVERED = 0 
+        
         self.TOTAL_DEAD = 0 #Total Dead Population of cell
         self.TOTAL_INFECTED = 0 #Total Infected Population of cell
-        self.QUARANTINED = quarantined #Whether or not this cell is blocked off from contagion
-        self.INFECTED_ARR = np.zeros(self.LIFESPAN) #Keeps track of the number of infected per time step
+        
+        
+        self.QUARANTINED = quarantined 
+        
+        
+        self.INFECTED_ARR = np.zeros(self.LIFESPAN) 
         self.REINFECTION = 45
         self.RECOVERED_ARR = np.zeros(self.REINFECTION)
-        self.carrierList = carrierList #Array of Carriers at the same x-y coordinate as this Cell
+        
+        #Array of Carriers at the same x-y coordinate as this Cell
+        self.carrierList = carrierList 
+        
         self.currentTimeStep = 0 #The current deltaX of the simulation
         
-        self.recovery_days = 7 #The number of days after which infected people within the population have the chance to recover
+        """The number of days after which infected people within the population 
+        have the chance to recover"""
+        self.recovery_days = 7
         
 
     """
     update_population:
     
-    Increment infected count & add result of current time step to infected history
+    Increment infected count & add result of current time step to infected 
+    history.
     Num infected increments based on multiple factors:
         Environment type at this Cell's location,
         This cell's Population density type
@@ -81,12 +97,14 @@ class Cell(object):
     
     """
     def update_population(self, carriers):
-        self.carrierList = carriers #Update the list of carriers for those that might have moved to this Cell
+        
+        #Update the list of carriers for those that might have moved to this Cell
+        self.carrierList = carriers 
         self.currentTimeStep += 1
         
         
         ## Reinfect ##
-        unrecovered = self.RECOVERED_ARR[self.currentTimeStep % self.REINFECTION]
+        unrecovered = self.RECOVERED_ARR[self.currentTimeStep %self.REINFECTION]
         self.RECOVERED_ARR[self.currentTimeStep % self.REINFECTION] = 0
         self.TOTAL_RECOVERED -= unrecovered
         self.TOTAL_SUSCEPTIBLE += unrecovered
@@ -94,11 +112,17 @@ class Cell(object):
         
         ## Death ##
         if self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] > 0:
-            recovered = int(self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] * self.RECOVER_PROBABILITY)
-            self.TOTAL_INFECTED -= self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN]
+            recovered = int(self.INFECTED_ARR[self.currentTimeStep % \
+                                    self.LIFESPAN] * self.RECOVER_PROBABILITY)
+                                    
+            self.TOTAL_INFECTED -= self.INFECTED_ARR[self.currentTimeStep % \
+                                                                self.LIFESPAN]
             self.TOTAL_RECOVERED += recovered
-            self.RECOVERED_ARR[self.currentTimeStep % self.REINFECTION] = recovered
-            self.TOTAL_DEAD += self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] - recovered
+            
+            self.RECOVERED_ARR[self.currentTimeStep % self.REINFECTION] = \
+                                                                    recovered
+            self.TOTAL_DEAD += self.INFECTED_ARR[self.currentTimeStep % \
+                                                    self.LIFESPAN] - recovered
         
         ## Infection ##
         infected = self.infect_rate()
@@ -106,7 +130,9 @@ class Cell(object):
         self.INFECTED_ARR[self.currentTimeStep % self.LIFESPAN] = infected
         self.TOTAL_SUSCEPTIBLE -= infected
         
-        return self.TOTAL_DEAD, self.TOTAL_INFECTED, (self.TOTAL_SUSCEPTIBLE + self.TOTAL_INFECTED + self.TOTAL_RECOVERED), self.TOTAL_RECOVERED, self.TOTAL_SUSCEPTIBLE
+        return self.TOTAL_DEAD, self.TOTAL_INFECTED, (self.TOTAL_SUSCEPTIBLE +\
+            self.TOTAL_INFECTED + self.TOTAL_RECOVERED), self.TOTAL_RECOVERED, \
+                                                        self.TOTAL_SUSCEPTIBLE
         
     """
     infect_rate

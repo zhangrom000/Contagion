@@ -1,8 +1,9 @@
 """
 Class Model
 
-The driver for the Contagion simulation. Contains data relevant to the maintenance
-the simulation such as: duration, the grid, metrics, and graphical outputs.
+The driver for the Contagion simulation. Contains data relevant to the 
+maintenance and analysis of the simulation such as: duration, the grid, metrics, 
+and graphical outputs.
 """
 #Infection will take into acount base probability, number of infected
 #rats and humans, population density, pollution level, resource availability,
@@ -48,11 +49,21 @@ def singleRun(TIME):
             break
         
     plt.figure("Population")
-    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") # dead
-    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") # infected
-    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") # alive
-    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") # recovered
-    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") # susceptible
+    
+    # dead
+    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") 
+    
+    # infected
+    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected")
+    
+    # alive
+    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive")
+    
+    # recovered
+    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered")
+    
+    # susceptible
+    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") 
     plt.xlabel("Time (days)")
     plt.ylabel("Population Size")
     plt.legend(fontsize=8, loc=1, borderaxespad=0.)
@@ -70,7 +81,8 @@ def multipleRuns(TIME, numSims):
         G.init() #Initialize the grid
         print run
         for dt in range(TIME):
-            dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
+            dead, infected, alive, recovered, susceptible, carriers = \
+                                                                G.updateGrid()
             dataArr[dt][0] += dead
             dataArr[dt][1] += infected
             dataArr[dt][2] += alive
@@ -79,13 +91,24 @@ def multipleRuns(TIME, numSims):
             dataArr[dt][5] += carriers
             if len(G.CARRIERS) == 0: 
                 dt = TIME
+                
     dataArr = dataArr / numSims
     plt.figure("Average Population Versus Time")
-    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") # dead
-    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") # infected
-    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") # alive
-    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") # recovered
-    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") # susceptible
+    
+    # dead
+    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") 
+    
+    # infected
+    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") 
+    
+    # alive
+    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") 
+    
+    # recovered
+    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") 
+    
+    # susceptible
+    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") 
     plt.xlabel("Time (days)")
     plt.ylabel("Population Size")
     plt.legend(fontsize=8, loc=1, borderaxespad=0.)
@@ -113,8 +136,13 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
         G.init() #Initialize the grid
         print run
         for dt in range(TIME):
+<<<<<<< HEAD
             print dt
             dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
+=======
+            dead, infected, alive, recovered, susceptible, carriers = \
+                                                                G.updateGrid()
+>>>>>>> origin/master
             dataArr[dt][0] += dead
             dataArr[dt][1] += infected
             dataArr[dt][2] += alive
@@ -125,11 +153,21 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
                 dt = TIME
     dataArr = dataArr / numSims
     plt.figure(name + " Average Population Versus Time")
-    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") # dead
-    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") # infected
-    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") # alive
-    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") # recovered
-    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") # susceptible
+    
+    # dead
+    plt.plot(range(TIME), dataArr[:TIME,0], 'k', label="Dead") 
+    
+    # infected
+    plt.plot(range(TIME), dataArr[:TIME,1], 'r', label="Infected") 
+    
+    # alive
+    plt.plot(range(TIME), dataArr[:TIME,2], 'g', label="Alive") 
+    
+    # recovered
+    plt.plot(range(TIME), dataArr[:TIME,3], 'b', label="Recovered") 
+    
+    # susceptible
+    plt.plot(range(TIME), dataArr[:TIME,4], 'y', label="Susceptible") 
     plt.xlabel("Time (days)")
     plt.ylabel("Population Size")
     plt.legend(fontsize=8, loc=1, borderaxespad=0.)
