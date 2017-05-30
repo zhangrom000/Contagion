@@ -149,7 +149,7 @@ class Grid(object):
     def killCarrier(self):
         to_remove = []
         for i in range(len(self.CARRIERS)):
-            if (self.CARRIERS[i].NUM_IN_SWARM <= 0):
+            if (self.CARRIERS[i].NUM_IN_SWARM < 1):
                 to_remove.append(self.CARRIERS[i])
                 
         for i in range(len(to_remove)):
