@@ -128,7 +128,7 @@ class Carrier(object):
                 
     def grow(self, env_grid):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE and
-            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > 0):
+            env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > self.NUM_IN_SWARM): # If the cell can sustain it
             
             num_growth = self.NUM_IN_SWARM * (self.POP_GROWTH_RATE  * random.uniform(0.75, 1.25))
             
