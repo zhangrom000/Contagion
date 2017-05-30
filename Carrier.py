@@ -20,7 +20,7 @@ class Carrier(object):
     FLU = {'INFECTION_RATE': 0.15, 'LIFESPAN': 0.05, 'MAX_SWARM_SIZE': 100, 'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY': 0.999986, 'LIFESPAN_INF': 365}
     
     # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
-    CONTAGION = MODERN_PLAGUE
+    CONTAGION = BLACK_PLAGUE
 
     INFECTION_RATE = CONTAGION['INFECTION_RATE'] #Infectious rate, higher rate means more likely to infect.
     LIFESPAN = CONTAGION['LIFESPAN'] #Percentage of swarm lost each timestep
@@ -42,11 +42,27 @@ class Carrier(object):
     WEST =[x - 1, y]
     NORTHWEST =[x - 1, y + 1]
     
-    def __init__(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM):
+    def __init__(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM, plague=0):
         self.x = x_init
         self.y = y_init
         self.NUM_IN_SWARM = swarm_init
-    
+        self.plagueType = plague
+        if self.plagueType == 0:
+            self.CONTAGION = self.BLACK_PLAGUE
+        elif self.plagueType == 1:
+            self.CONTAGION = self.FLU
+        elif self.plagueType == 2:
+            self.CONTAGION = self.MODERN_PLAGUE
+        elif self.plagueType == 3:
+            self.CONTAGION = self.JUSTINIAN_PLAGUE
+            
+        self.INFECTION_RATE = self.CONTAGION['INFECTION_RATE']
+        self.LIFESPAN = self.CONTAGION['LIFESPAN']
+        self.MAX_SWARM_SIZE = self.CONTAGION['MAX_SWARM_SIZE']
+        self.POP_GROWTH_RATE = self.CONTAGION['POP_GROWTH_RATE'] 
+        self.RECOVER_PROBABILITY = self.CONTAGION['RECOVER_PROBABILITY'] 
+        self.LIFESPAN_INF = self.CONTAGION['LIFESPAN_INF']
+            
     # Update population and location of swarm
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
@@ -128,7 +144,7 @@ class Carrier(object):
         if (self.NUM_IN_SWARM >= self.MAX_SWARM_SIZE):
             new_swarm = self.NUM_IN_SWARM / 2
             self.NUM_IN_SWARM -= new_swarm
-            env_grid.addCarrier(self.x, self.y, new_swarm)       
+            env_grid.addCarrier(self.x, self.y, new_swarm, self.plagueType)       
     
     def die(self,env_grid):    
         if (env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE == 0):

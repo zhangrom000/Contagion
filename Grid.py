@@ -27,8 +27,8 @@ class Grid(object):
     BARRIER_PROB = 0
     
     # Grid Size #
-    GRID_WIDTH = 40
-    GRID_HEIGHT = 40
+    GRID_WIDTH = 20
+    GRID_HEIGHT = 20
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     TRAVELERS = []
@@ -42,12 +42,29 @@ class Grid(object):
     
     Initialize the lists of objects contained within this Grid.
     """
-    def init(self):
+    def init(self, travelers=True, plagueType=0, gridType=0):
         self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) #A grid of cells
         self.TRAVELERS = []
         self.TRAVEL_LOC = []
         self.CARRIERS = [] #An array of all the carriers
-        self.initGrid()
+        
+        if travelers == True:
+            self.MAX_TRAVELERS = 8
+        else:
+            self.MAX_TRAVELERS = 0
+        
+        if gridType == 0:
+            self.GRID_TYPE = self.BASE
+        elif gridType == 1:
+            self.GRID_TYPE = self.LOW_DENSITY
+        elif gridType == 2:
+            self.GRID_TYPE = self.HIGH_DENSITY
+        
+        self.CITY_PROB = self.GRID_TYPE['CITY_PROB'] #Chance of placing a city
+        self.SUBURBAN_PROB = self.GRID_TYPE['SUBURBAN_PROB'] #Chance of placing suburban area
+        self.RURAL_PROB = self.GRID_TYPE['RURAL_PROB'] #Chance of placing a rural area
+        
+        self.initGrid(plagueType)
         #Initialize grid, calls other initializations
         
     """
@@ -57,7 +74,7 @@ class Grid(object):
     for subsets of the grid at random locations. Probability of an environment
     being rural > suburban > city.
     """
-    def initGrid(self):
+    def initGrid(self, plagueType):
         #Initialize the grid and cells
         for x in range(self.GRID_WIDTH):
             for y in range(self.GRID_HEIGHT):
@@ -68,7 +85,7 @@ class Grid(object):
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
                         self.TRAVEL_LOC.append([x,y])
                         for i in range(self.MAX_CARRIERS):
-                            self.addCarrier(x, y, Carrier.NUM_IN_SWARM)  
+                            self.addCarrier(x, y, Carrier.NUM_IN_SWARM, plagueType)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
@@ -96,12 +113,8 @@ class Grid(object):
     
     Spawn a Carrier object at a specified x-y coordinate on this Grid
     """ 
-    def addCarrier(self, x, y, numSwarm):
-        hold = Carrier()
-        hold.x = x
-        hold.y = y
-        hold.NUM_IN_SWARM = numSwarm
-        self.CARRIERS.append(hold)
+    def addCarrier(self, x, y, numSwarm, plagueType):
+        self.CARRIERS.append(Carrier(x, y, numSwarm, plagueType))
     
     """
     updateGrid

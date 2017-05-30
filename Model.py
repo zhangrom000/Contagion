@@ -15,12 +15,12 @@ from Visualize import Visualize
 
 ## Runtime Variables ##
 
-TIMELINE = 1000 #Timestep duration of this simulation
+TIMELINE = 365 * 3 #Timestep duration of this simulation
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
-graph = True
-numSims = 30
-multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
+graph = False #Play the results in real time for single run
+numSims = 25
+multipleSims = 2 #0 for one run, 1 for multiple, 2 for full test
 
 ########################
 
@@ -66,7 +66,6 @@ def singleRun(TIME):
 
 def multipleRuns(TIME, numSims):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
-    G.init() #Initialize the grid
     for run in range(numSims):
         G.init() #Initialize the grid
         print run
@@ -99,20 +98,22 @@ def multipleRuns(TIME, numSims):
     plt.show()
 
 def fullTest(TIME, numSims):
-    testCase("Base Case", TIME, numSims)
-    testCase("Disease 2 Case", TIME, numSims)
-    testCase("Disease 3 Case", TIME, numSims)
-    testCase("Grid 2 Case", TIME, numSims)
-    testCase("Grid 3 Case", TIME, numSims)
-    testCase("No Traveler Case", TIME, numSims)
+    testCase("Base Case", TIME, numSims, True, 0, 0)
+    testCase("Modern Plague Case", TIME, numSims, True, 0, 2)
+    testCase("Justinian Plague Case", TIME, numSims, True, 0, 3)
+    testCase("Flu Case", TIME, numSims, True, 0, 1)
+    testCase("Low Density Grid Case", TIME, numSims, True, 1, 0)
+    testCase("High Density Grid Case", TIME, numSims, True, 2, 0)
+    testCase("No Traveler Case", TIME, numSims, False, 0, 0)
     
-def testCase(name, TIME, numSims):
+def testCase(name, TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
-    G.init() #Initialize the grid
+    print name
     for run in range(numSims):
         G.init() #Initialize the grid
         print run
         for dt in range(TIME):
+            print dt
             dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
             dataArr[dt][0] += dead
             dataArr[dt][1] += infected
@@ -134,7 +135,7 @@ def testCase(name, TIME, numSims):
     plt.legend(fontsize=8, loc=1, borderaxespad=0.)
     plt.show()
     
-    plt.figure(Name + "Average Carrier Population Versus Time")
+    plt.figure(name + "Average Carrier Population Versus Time")
     plt.plot(range(TIME), dataArr[:TIME,5], label="Carriers") # dead
     plt.xlabel("Time (days)")
     plt.ylabel("Carrier Population Size")
