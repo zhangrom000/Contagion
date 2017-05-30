@@ -25,8 +25,8 @@ class Cell(object):
     Initialize this Cell: x-y coordinate on grid, environment type, 
     lifespan of population, etc
     """
-    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', lifespan = 20, \
-                                    quarantined = 'False', carrierList = []):
+    def __init__(self, xLoc = 0, yLoc = 0, density = 'Land', plagueType=0, \
+                 lifespan = 20, quarantined = 'False', carrierList = []):
         
         if (density == 'City'):
             self.ENV_TYPE = 1
@@ -48,11 +48,15 @@ class Cell(object):
             self.INITIAL_POP = 0
             self.DENSITY = 0
             
+        #Cell uses correct Carrier variables
+        self.temp_carrier = Carrier()
+        self.temp_carrier.init(Carrier.x, Carrier.y, Carrier.NUM_IN_SWARM, plagueType)
+        
         # Percentage of population recovered after end of lifespan
-        self.RECOVER_PROBABILITY = Carrier.RECOVER_PROBABILITY 
+        self.RECOVER_PROBABILITY =  self.temp_carrier.RECOVER_PROBABILITY 
         
         #Lifespan (in days) an infected human.
-        self.LIFESPAN = Carrier.LIFESPAN_INF  
+        self.LIFESPAN =  self.temp_carrier.LIFESPAN_INF  
         
         self.x = xLoc #X coordinate on the grid
         self.y = yLoc #Y coordinate on the grid
@@ -142,7 +146,7 @@ class Cell(object):
     affluence.
     """    
     def infect_rate(self):
-        infect_prob = Carrier.INFECTION_RATE * self.DENSITY
+        infect_prob =  self.temp_carrier.INFECTION_RATE * self.DENSITY
         numToInfect = int((self.carriers_In_Cell() * infect_prob) \
                           + (self.TOTAL_INFECTED * infect_prob))
         numToInfect = min(numToInfect, self.TOTAL_SUSCEPTIBLE)

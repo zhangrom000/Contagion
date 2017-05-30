@@ -22,7 +22,7 @@ TIME = (int) (TIMELINE / DT)
 graph = False #Play the results in real time for single run
 travelers = True
 gridType = 0
-plagueType = 2
+plagueType = 0 #0=Black Plague, 1=Flu, 2=Modern Plague, 3=Justinian Plague
 numSims = 25
 multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
 
@@ -34,7 +34,7 @@ def singleRun(TIME, travelers, gridType, plagueType):
     G.useTravelers = travelers
     G.gridType = gridType
     G.plagueType = plagueType
-    G.init(travelers, gridType, plagueType) #Initialize the grid
+    G.init(travelers, gridType) #Initialize the grid
     f, axs = V.update_plot(G)
     carrierScatter,travelerScatter = V.plot_agents(G)
     for dt in range(TIME):

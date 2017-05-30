@@ -49,7 +49,7 @@ class Grid(object):
     Initialize the lists of objects contained within this Grid.
     """
 
-    def init(self, travelers=True, plague=0, gridDensity=0):
+    def init(self, travelers=True, gridDensity=0):
         #A grid of cells
         self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell)
         self.TRAVELERS = []
@@ -91,7 +91,7 @@ class Grid(object):
                 rand = N.random.random(5)
                 if rand[0] <= self.CITY_PROB:
                     #self.GRID[x][y] = self.CITY
-                    self.GRID[x][y]= Cell(x, y, 'City')
+                    self.GRID[x][y]= Cell(x, y, 'City', plagueType)
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
                         self.TRAVEL_LOC.append([x,y])
                         for i in range(self.MAX_CARRIERS):
@@ -99,20 +99,20 @@ class Grid(object):
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN
-                    self.GRID[x][y]= Cell(x, y, 'Suburban')
+                    self.GRID[x][y]= Cell(x, y, 'Suburban', plagueType)
                     self.TRAVEL_LOC.append([x,y])
                     #Initialize Suburban cell
                 elif rand[2] <= self.RURAL_PROB:
                     #self.GRID[x][y] = self.RURAL
-                    self.GRID[x][y]= Cell(x, y, 'Rural')
+                    self.GRID[x][y]= Cell(x, y, 'Rural', plagueType)
                     self.TRAVEL_LOC.append([x,y])
                     #Initialize Rural cell
                 elif rand[3] <= self.BARRIER_PROB:
                     #self.GRID[x][y] = self.BARRIER
-                    self.GRID[x][y]= Cell(x, y, 'Barrier')
+                    self.GRID[x][y]= Cell(x, y, 'Barrier', plagueType)
                 else:
                     #self.GRID[x][y] = self.LAND
-                    self.GRID[x][y]= Cell(x, y, 'Land')
+                    self.GRID[x][y]= Cell(x, y, 'Land', plagueType)
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= 
                                                         #self.MAX_CARRIERS:
                     #self.addCarrier(x, y)
