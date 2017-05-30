@@ -50,7 +50,8 @@ class Cell(object):
             
         #Cell uses correct Carrier variables
         self.temp_carrier = Carrier()
-        self.temp_carrier.init(Carrier.x, Carrier.y, Carrier.NUM_IN_SWARM, plagueType)
+        self.temp_carrier.init(Carrier.x, Carrier.y, Carrier.NUM_IN_SWARM, \
+                                                                    plagueType)
         
         # Percentage of population recovered after end of lifespan
         self.RECOVER_PROBABILITY =  self.temp_carrier.RECOVER_PROBABILITY 
@@ -102,7 +103,7 @@ class Cell(object):
     """
     def update_population(self, carriers):
         
-        #Update the list of carriers for those that might have moved to this Cell
+    #Update the list of carriers for those that might have moved to this Cell
         self.carrierList = carriers 
         self.currentTimeStep += 1
         

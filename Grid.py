@@ -70,9 +70,14 @@ class Grid(object):
         elif self.gridType == 2:
             self.GRID_TYPE = self.HIGH_DENSITY
         
-        self.CITY_PROB = self.GRID_TYPE['CITY_PROB'] #Chance of placing a city
-        self.SUBURBAN_PROB = self.GRID_TYPE['SUBURBAN_PROB'] #Chance of placing suburban area
-        self.RURAL_PROB = self.GRID_TYPE['RURAL_PROB'] #Chance of placing a rural area
+        #Chance of placing a city
+        self.CITY_PROB = self.GRID_TYPE['CITY_PROB'] 
+        
+        #Chance of placing suburban area
+        self.SUBURBAN_PROB = self.GRID_TYPE['SUBURBAN_PROB'] 
+        
+        #Chance of placing a rural area
+        self.RURAL_PROB = self.GRID_TYPE['RURAL_PROB'] 
         
         self.initGrid(self.plagueType)
         #Initialize grid, calls other initializations
@@ -95,7 +100,8 @@ class Grid(object):
                     if len(self.CARRIERS) < self.MAX_CARRIERS:
                         self.TRAVEL_LOC.append([x,y])
                         for i in range(self.MAX_CARRIERS):
-                            self.addCarrier(x, y, Carrier.NUM_IN_SWARM, plagueType)  
+                            self.addCarrier(x, y, Carrier.NUM_IN_SWARM, \
+                                                                    plagueType)  
                     #Initialize city cell
                 elif rand[1] <= self.SUBURBAN_PROB:
                     #self.GRID[x][y] = self.SUBURBAN

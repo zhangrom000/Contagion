@@ -159,7 +159,8 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
         print run
         for dt in range(TIME):
             print dt
-            dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
+            dead, infected, alive, recovered, susceptible, carriers = \
+                                                                G.updateGrid()
             dataArr[dt][0] += dead
             dataArr[dt][1] += infected
             dataArr[dt][2] += alive

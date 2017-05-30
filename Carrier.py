@@ -29,7 +29,7 @@ class Carrier(object):
     FLU = {'INFECTION_RATE': 0.15, 'LIFESPAN': 0.05, 'MAX_SWARM_SIZE': 100, \
     'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY':0.999986, 'LIFESPAN_INF':365}
 
-    # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
+    # CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW #
     CONTAGION = BLACK_PLAGUE
 
     #Infectious rate, higher rate means more likely to infect.
@@ -67,7 +67,8 @@ class Carrier(object):
     """
     __init__
     
-    Initialize this Carrier: x-y coordinate on grid, number of individuals in swarm, infection rate
+    Initialize this Carrier: x-y coordinate on grid, number of individuals in 
+    swarm, infection rate
     """
     def init(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM, plague=0):
         #self.x = x_init
@@ -117,7 +118,8 @@ class Carrier(object):
     Move
         
     Consider this Carrier's possible changes in locations in a Von Neumann 
-    neighborhood. Checks the grid for valid locations for this carrier to move to. 
+    neighborhood. Checks the grid for valid locations for this carrier 
+    to move to. 
     """
     def Move(self, env_grid):
         # Check mobility versus a rng to determine if it moves
