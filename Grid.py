@@ -45,14 +45,14 @@ class Grid(object):
     
     Initialize the lists of objects contained within this Grid.
     """
-<<<<<<< HEAD
+
     def init(self, travelers=True, plagueType=0, gridType=0):
-        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) #A grid of cells
-=======
+        #A grid of cells
+        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell)
+         
     def init(self):
         #A grid of cells
         self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) 
->>>>>>> origin/master
         self.TRAVELERS = []
         self.TRAVEL_LOC = []
         self.CARRIERS = [] #An array of all the carriers

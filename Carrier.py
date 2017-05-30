@@ -31,12 +31,11 @@ class Carrier(object):
     
     # CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW #
     
-<<<<<<< HEAD
+
     # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
     CONTAGION = BLACK_PLAGUE
-=======
+
     CONTAGION = MODERN_PLAGUE
->>>>>>> origin/master
 
     #Infectious rate, higher rate means more likely to infect.
     INFECTION_RATE = CONTAGION['INFECTION_RATE'] 
