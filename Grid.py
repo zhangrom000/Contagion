@@ -110,10 +110,12 @@ class Grid(object):
         alive = 0
         recovered = 0
         susceptible = 0
+        carriers = 0
         for i in range(len(self.TRAVELERS)):
             self.TRAVELERS[i].move(self)
         for i in range(len(self.CARRIERS)):
             self.CARRIERS[i].update(self)
+            carriers += self.CARRIERS[i].NUM_IN_SWARM
             
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
@@ -126,7 +128,7 @@ class Grid(object):
                 
         self.killCarrier()
         
-        return dead, infected, alive, recovered, susceptible
+        return dead, infected, alive, recovered, susceptible, carriers
     
     def getCell(self, xy_coords=[]):
         return self.GRID[xy_coords[0]][xy_coords[1]]
