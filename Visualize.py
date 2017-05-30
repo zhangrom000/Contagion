@@ -32,7 +32,7 @@ class Visualize(object):
     Also inits the plot if not found
     
     """
-    def update_plot(self, gridObj, f = None, axarr = None, wait = True):
+    def update_plot(self, gridObj, f = None, axarr = None, wait = False):
         
         height = gridObj.GRID_HEIGHT
         width = gridObj.GRID_WIDTH
@@ -131,7 +131,7 @@ class Visualize(object):
                 extent=[0, width, 0, height],
                 zorder=0)
         
-        #if wait: plt.pause(0.4)
+        if wait: plt.pause(0.4)
         plt.show()
         
         return f, axarr
