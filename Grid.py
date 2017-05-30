@@ -142,6 +142,8 @@ class Grid(object):
         return self.GRID[xy_coords[0]][xy_coords[1]]
     
     """
+    killCarrier
+    
     Remove a Carrier in the model from the simulation.
     """
     def killCarrier(self):
