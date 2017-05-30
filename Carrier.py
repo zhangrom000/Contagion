@@ -64,6 +64,11 @@ class Carrier(object):
     WEST =[x - 1, y]
     NORTHWEST =[x - 1, y + 1]
     
+    """
+    __init__
+    
+    Initialize this Carrier: x-y coordinate on grid, number of individuals in swarm, infection rate
+    """
     def init(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM, plague=0):
         #self.x = x_init
         #self.y = y_init
@@ -85,7 +90,13 @@ class Carrier(object):
         self.RECOVER_PROBABILITY = self.CONTAGION['RECOVER_PROBABILITY'] 
         self.LIFESPAN_INF = self.CONTAGION['LIFESPAN_INF']
              
-    # Update population and location of swarm
+    """
+    update
+    
+    Updates this Carrier object for the current time step: Updates population
+    and location of this swarm.
+    
+    """         
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
         self.NORTHEAST = [self.x + 1, self.y + 1]
@@ -102,7 +113,12 @@ class Carrier(object):
         self.Move(env_grid)
         pass
     
-    
+    """
+    Move
+        
+    Consider this Carrier's possible changes in locations in a Von Neumann 
+    neighborhood. Checks the grid for valid locations for this carrier to move to. 
+    """
     def Move(self, env_grid):
         # Check mobility versus a rng to determine if it moves
         # Check if nearby agents, or for a point of interest
@@ -167,12 +183,24 @@ class Carrier(object):
                 self.x = move[0]
                 self.y = move[1]
     
+    """
+    split
+    
+    Divide this Carrier swarm into two halves. Remove half of this Carrier's 
+    swarm count and add a new Carrier object with the other half.
+    """
     def split(self, env_grid):
         if (self.NUM_IN_SWARM >= self.MAX_SWARM_SIZE):
             new_swarm = self.NUM_IN_SWARM / 2
             self.NUM_IN_SWARM -= new_swarm
             env_grid.addCarrier(self.x, self.y, new_swarm, self.plagueType)       
     
+    """
+    die
+    
+    "Kill off" some of the individuals in the swarm; 
+    Decrement num in this Carrier swarm.
+    """
     def die(self,env_grid):    
         if (env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE == 0):
             
@@ -181,7 +209,12 @@ class Carrier(object):
             
             if (num_dead >= 1):
                 self.NUM_IN_SWARM -= num_dead
-                
+      
+    """
+    grow
+    
+    Increment the count in this Carrier swarm.
+    """                      
     def grow(self, env_grid):
         if (self.NUM_IN_SWARM < self.MAX_SWARM_SIZE and
             env_grid.getCell([self.x, self.y]).TOTAL_SUSCEPTIBLE > \

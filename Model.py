@@ -29,6 +29,11 @@ multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
 ########################
 
 ## Methods ##
+"""
+singleRun
+
+For testing
+"""
 def singleRun(TIME, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     G.init(travelers, gridType, plagueType) #Initialize the grid
@@ -78,6 +83,11 @@ def singleRun(TIME, travelers, gridType, plagueType):
     plt.ylabel("Carrier Population Size")
     plt.show()
 
+"""
+multipleRuns
+
+For testing
+"""
 def multipleRuns(TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     for run in range(numSims):
@@ -123,6 +133,11 @@ def multipleRuns(TIME, numSims, travelers, gridType, plagueType):
     plt.ylabel("Carrier Population Size")
     plt.show()
 
+"""
+fullTest
+
+For testing
+"""
 def fullTest(TIME, numSims):
     testCase("Base Case", TIME, numSims, True, 0, 0)
     testCase("Modern Plague Case", TIME, numSims, True, 0, 2)
@@ -131,7 +146,11 @@ def fullTest(TIME, numSims):
     testCase("Low Density Grid Case", TIME, numSims, True, 1, 0)
     testCase("High Density Grid Case", TIME, numSims, True, 2, 0)
     testCase("No Traveler Case", TIME, numSims, False, 0, 0)
-    
+"""
+testCase
+
+For testing 
+"""    
 def testCase(name, TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     print name
