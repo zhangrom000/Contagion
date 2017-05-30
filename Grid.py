@@ -4,62 +4,29 @@ from Cell import Cell
 from Carrier import Carrier
 from Traveler import Traveler
 
-class Grid(object):
-    #### Variables ####
-    
-    ## Initial Population Variables ##
-    CARRIER_POP_INIT = 1 #Inital population of carriers per agent
-    
-    CITY_POP_INIT = 1 #initial population for a city
-    CITY_POP_RANGE = 1 #Range around initial size
-    SUBURBAN_POP_INIT = 1 #initial population for a Suburban
-    SUBURBAN_POP_RANGE = 1  #Range around initial size
-    RURAL_POP_INIT = 1 #initial population for a rural
-    RURAL_POP_RANGE = 1 #Range around initial size
-    
+class Grid(object):    
     ## Initializing Grid ##
-    #CITY_PROB = 1 # Test value
     CITY_PROB = 0.02 #Chance of placing a city
     SUBURBAN_PROB = 0.05 #Chance of placing suburban area
     RURAL_PROB = 0.08 #Chance of placing a rural area
     BARRIER_PROB = 0
     
-    CARRIER_PROB = 0.05 #Chance of placing a carrier agent
-    CARRIER_RANGE = 1 #Nunber of agents to place
-    
-    POLLUTION_BASE = 1 #Initialize cell polution level
-    POLLUTION_RANGE = 1 #Range of pollution
-    
-    # Cell Type Values #
-    #LAND = 0
-    #CITY = 1
-    #SUBURBAN = 2
-    #RURAL = 3
-    #BARRIER = 4
-    
     # Grid Size #
     GRID_WIDTH = 20
     GRID_HEIGHT = 20
     
-    ## Transmission Variables ##
-    BASE_INFECTION_PROB = 1 #Base probability of infection
-    CARRIER_INFECTION_PROB = 1 #Probabily of carrier becoming infected
-    INCUBATION = 1 #Incubation period
-    LIFESPAN = 1 #Lifespan of infected individual
-    RECOVERY_CHANCE = 1 #Chance of individual's recovery
-    
-    CELL_MAX_CARRIER_POP = 1 #Max number of carrier population before no more will enter
-    
-    QUARANTINED_MIN = 1 #Number of living needed to maintain Quarantine
-    QUARANTINE_MAX = 1 #Number of infected to implement Quarantine
-    
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     TRAVELERS = []
     TRAVEL_LOC = []
+    MAX_TRAVELERS = 8
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
         
     def init(self):
+        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) #A grid of cells
+        self.TRAVELERS = []
+        self.TRAVEL_LOC = []
+        self.CARRIERS = [] #An array of all the carriers
         self.initGrid()
         #Initialize grid, calls other initializations
         
@@ -94,7 +61,7 @@ class Grid(object):
                     self.GRID[x][y]= Cell(x, y, 'Land')
                 #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
                     #self.addCarrier(x, y)
-        for i in range(4):
+        for i in range(self.MAX_TRAVELERS):
             self.TRAVELERS.append(Traveler())
         
     def addCarrier(self, x, y, numSwarm):
