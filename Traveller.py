@@ -7,11 +7,6 @@ import numpy as np
 
 class Traveler(object):
     
-    x = 0
-    y = 0
-    destination = [0,0]
-    speed = 1
-    
     def __init__(self, x_init=0, y_init=0, dest=[0,0], spd=1):
         self.x = x_init
         self.y = y_init
