@@ -14,14 +14,21 @@ from Traveler import Traveler
 
 class Grid(object):    
     ## Initializing Grid ##
-    CITY_PROB = 0.02 #Chance of placing a city
-    SUBURBAN_PROB = 0.05 #Chance of placing suburban area
-    RURAL_PROB = 0.08 #Chance of placing a rural area
+    
+    LOW_DENSITY = {'CITY_PROB': 0.005, 'SUBURBAN_PROB': 0.03, 'RURAL_PROB': 0.06}
+    BASE = {'CITY_PROB': 0.02, 'SUBURBAN_PROB': 0.05, 'RURAL_PROB': 0.08}
+    HIGH_DENSITY = {'CITY_PROB': 0.1, 'SUBURBAN_PROB': 0.1, 'RURAL_PROB': 0.1}
+    
+    GRID_TYPE = BASE
+    
+    CITY_PROB = GRID_TYPE['CITY_PROB'] #Chance of placing a city
+    SUBURBAN_PROB = GRID_TYPE['SUBURBAN_PROB'] #Chance of placing suburban area
+    RURAL_PROB = GRID_TYPE['RURAL_PROB'] #Chance of placing a rural area
     BARRIER_PROB = 0
     
     # Grid Size #
-    GRID_WIDTH = 20
-    GRID_HEIGHT = 20
+    GRID_WIDTH = 40
+    GRID_HEIGHT = 40
     
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     TRAVELERS = []
