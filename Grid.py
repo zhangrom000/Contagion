@@ -36,6 +36,9 @@ class Grid(object):
     GRID = N.empty((GRID_WIDTH, GRID_HEIGHT), dtype=Cell) #A grid of cells
     TRAVELERS = []
     TRAVEL_LOC = []
+    useTravelers = True
+    plagueType = 0
+    gridType = 0
     MAX_TRAVELERS = 8
     CARRIERS = [] #An array of all the carriers
     MAX_CARRIERS = 8        
@@ -46,34 +49,32 @@ class Grid(object):
     Initialize the lists of objects contained within this Grid.
     """
 
-    def init(self, travelers=True, plagueType=0, gridType=0):
+    def init(self, travelers=True, plague=0, gridDensity=0):
         #A grid of cells
         self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell)
-         
-    def init(self):
-        #A grid of cells
-        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) 
         self.TRAVELERS = []
         self.TRAVEL_LOC = []
         self.CARRIERS = [] #An array of all the carriers
-        
-        if travelers == True:
+        #self.useTravelers = travelers
+        #self.plagueType = plague
+        #self.gridType = gridDensity
+        if self.useTravelers == True:
             self.MAX_TRAVELERS = 8
         else:
             self.MAX_TRAVELERS = 0
         
-        if gridType == 0:
+        if self.gridType == 0:
             self.GRID_TYPE = self.BASE
-        elif gridType == 1:
+        elif self.gridType == 1:
             self.GRID_TYPE = self.LOW_DENSITY
-        elif gridType == 2:
+        elif self.gridType == 2:
             self.GRID_TYPE = self.HIGH_DENSITY
         
         self.CITY_PROB = self.GRID_TYPE['CITY_PROB'] #Chance of placing a city
         self.SUBURBAN_PROB = self.GRID_TYPE['SUBURBAN_PROB'] #Chance of placing suburban area
         self.RURAL_PROB = self.GRID_TYPE['RURAL_PROB'] #Chance of placing a rural area
         
-        self.initGrid(plagueType)
+        self.initGrid(self.plagueType)
         #Initialize grid, calls other initializations
         
     """
@@ -124,7 +125,13 @@ class Grid(object):
     Spawn a Carrier object at a specified x-y coordinate on this Grid
     """ 
     def addCarrier(self, x, y, numSwarm, plagueType):
-        self.CARRIERS.append(Carrier(x, y, numSwarm, plagueType))
+        hold = Carrier()
+        hold.x = x
+        hold.y = y
+        hold.NUM_IN_SWARM = numSwarm
+        hold.plagueType = plagueType
+        hold.init(x, y, numSwarm, plagueType)
+        self.CARRIERS.append(hold)
     
     """
     updateGrid

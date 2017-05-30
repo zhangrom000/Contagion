@@ -29,13 +29,9 @@ class Carrier(object):
     FLU = {'INFECTION_RATE': 0.15, 'LIFESPAN': 0.05, 'MAX_SWARM_SIZE': 100, \
     'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY':0.999986, 'LIFESPAN_INF':365}
     
-    # CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW #
-    
 
     # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
-    CONTAGION = BLACK_PLAGUE
-
-    CONTAGION = MODERN_PLAGUE
+    CONTAGION = JUSTINIAN_PLAGUE
 
     #Infectious rate, higher rate means more likely to infect.
     INFECTION_RATE = CONTAGION['INFECTION_RATE'] 
@@ -57,6 +53,7 @@ class Carrier(object):
     
     x = 1 #x location in grid
     y = 1 #y location in grid
+    plagueType = 0
     
     #### Neighbors ####
     NORTH = [x, y + 1]
@@ -68,11 +65,11 @@ class Carrier(object):
     WEST =[x - 1, y]
     NORTHWEST =[x - 1, y + 1]
     
-    def __init__(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM, plague=0):
-        self.x = x_init
-        self.y = y_init
-        self.NUM_IN_SWARM = swarm_init
-        self.plagueType = plague
+    def init(self, x_init=0, y_init=0, swarm_init = NUM_IN_SWARM, plague=0):
+        #self.x = x_init
+        #self.y = y_init
+        #self.NUM_IN_SWARM = swarm_init
+        #self.plagueType = plague
         if self.plagueType == 0:
             self.CONTAGION = self.BLACK_PLAGUE
         elif self.plagueType == 1:

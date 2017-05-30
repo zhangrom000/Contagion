@@ -20,19 +20,25 @@ TIMELINE = 365 * 3 #Timestep duration of this simulation
 DT = 1 #Timestep
 TIME = (int) (TIMELINE / DT)
 graph = False #Play the results in real time for single run
+travelers = True
+gridType = 0
+plagueType = 2
 numSims = 25
-multipleSims = 2 #0 for one run, 1 for multiple, 2 for full test
+multipleSims = 0 #0 for one run, 1 for multiple, 2 for full test
 
 ########################
 
 ## Methods ##
-def singleRun(TIME):
+def singleRun(TIME, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
-    G.init() #Initialize the grid
+    G.useTravelers = travelers
+    G.gridType = gridType
+    G.plagueType = plagueType
+    G.init(travelers, gridType, plagueType) #Initialize the grid
     f, axs = V.update_plot(G)
     carrierScatter,travelerScatter = V.plot_agents(G)
     for dt in range(TIME):
-        print dt
+        #print dt
         dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
         dataArr[dt][0] = dead
         dataArr[dt][1] = infected
@@ -75,10 +81,10 @@ def singleRun(TIME):
     plt.ylabel("Carrier Population Size")
     plt.show()
 
-def multipleRuns(TIME, numSims):
+def multipleRuns(TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     for run in range(numSims):
-        G.init() #Initialize the grid
+        G.init(travelers, gridType, plagueType) #Initialize the grid
         print run
         for dt in range(TIME):
             dead, infected, alive, recovered, susceptible, carriers = \
@@ -133,13 +139,11 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
     dataArr = N.zeros((TIME, 6)) #Array of infection data per timestep
     print name
     for run in range(numSims):
-        G.init() #Initialize the grid
+        G.init(travelers, gridType, plagueType) #Initialize the grid
         print run
         for dt in range(TIME):
             print dt
             dead, infected, alive, recovered, susceptible, carriers = G.updateGrid()
-            dead, infected, alive, recovered, susceptible, carriers = \
-                                                                G.updateGrid()
             dataArr[dt][0] += dead
             dataArr[dt][1] += infected
             dataArr[dt][2] += alive
@@ -182,8 +186,8 @@ def testCase(name, TIME, numSims, travelers, gridType, plagueType):
 G = Grid()
 V = Visualize()
 if multipleSims == 0:
-    singleRun(TIME)
+    singleRun(TIME, travelers, gridType, plagueType)
 elif multipleSims == 1:
-    multipleRuns(TIME, numSims)
+    multipleRuns(TIME, numSims, travelers, gridType, plagueType)
 elif multipleSims == 2:
     fullTest(TIME, numSims)
