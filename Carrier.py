@@ -28,10 +28,9 @@ class Carrier(object):
     
     FLU = {'INFECTION_RATE': 0.15, 'LIFESPAN': 0.05, 'MAX_SWARM_SIZE': 100, \
     'POP_GROWTH_RATE': 0.05, 'RECOVER_PROBABILITY':0.999986, 'LIFESPAN_INF':365}
-    
 
     # -------- CHOOSE A CONTAGION ABOVE BY CHANGING THE RIGHT SIDE OF THE LINE BELOW --------- #
-    CONTAGION = JUSTINIAN_PLAGUE
+    CONTAGION = BLACK_PLAGUE
 
     #Infectious rate, higher rate means more likely to infect.
     INFECTION_RATE = CONTAGION['INFECTION_RATE'] 
@@ -69,7 +68,7 @@ class Carrier(object):
         #self.x = x_init
         #self.y = y_init
         #self.NUM_IN_SWARM = swarm_init
-        #self.plagueType = plague
+        self.plagueType = plague
         if self.plagueType == 0:
             self.CONTAGION = self.BLACK_PLAGUE
         elif self.plagueType == 1:
@@ -85,7 +84,7 @@ class Carrier(object):
         self.POP_GROWTH_RATE = self.CONTAGION['POP_GROWTH_RATE'] 
         self.RECOVER_PROBABILITY = self.CONTAGION['RECOVER_PROBABILITY'] 
         self.LIFESPAN_INF = self.CONTAGION['LIFESPAN_INF']
-            
+             
     # Update population and location of swarm
     def update(self, env_grid):
         self.NORTH = [self.x, self.y + 1]
