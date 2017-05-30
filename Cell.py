@@ -53,7 +53,7 @@ class Cell(object):
         self.AFFLUENCE = rand.random()
         self.POLLUTION = rand.random()
         self.TOTAL_RECOVERED = 0 #Number of infected that have recovered from the contagion
-        self.RECOVER_PROBABILITY = 0.05 #Percentage of population recovered after end of lifespan
+        self.RECOVER_PROBABILITY = Carrier.RECOVER_PROBABILITY #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0 #Total Dead Population of cell
         self.RECOVER_PROBABILITY = 0.2 #Percentage of population recovered after end of lifespan
         self.TOTAL_DEAD = 0#Total Dead Population of cell
