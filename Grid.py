@@ -1,11 +1,14 @@
 """
 Class Grid
 
-Grid represents the finite cartesian plane which serves as the overall environment
-of this agent based model. Cells of populations are defined as a coordinate on 
-this Grid. The agents, Carrier objects, are defined as coordinates on this grid. 
-The Carrier agents move independently through this Grid using Von Neumann 
-neighborhood move policy.
+Grid represents the finite cartesian plane which serves as the overall 
+environment of this agent based model. Cells of populations are defined as a 
+coordinate on this Grid. The agents, Carrier objects, are defined as coordinates
+on this grid. The Carrier agents move independently through this Grid using 
+Von Neumann neighborhood move policy.
+
+@authors Austen Harp, Garret King, Alex Tang, Roman Zhang
+Made for use in the Contagion 
 """
 import numpy as N
 from Cell import Cell
@@ -15,7 +18,7 @@ from Traveler import Traveler
 class Grid(object):    
     ## Initializing Grid ##
     
-    LOW_DENSITY = {'CITY_PROB': 0.005, 'SUBURBAN_PROB': 0.03, 'RURAL_PROB': 0.06}
+    LOW_DENSITY = {'CITY_PROB': 0.005, 'SUBURBAN_PROB': 0.03, 'RURAL_PROB':0.06}
     BASE = {'CITY_PROB': 0.02, 'SUBURBAN_PROB': 0.05, 'RURAL_PROB': 0.08}
     HIGH_DENSITY = {'CITY_PROB': 0.1, 'SUBURBAN_PROB': 0.1, 'RURAL_PROB': 0.1}
     
@@ -43,7 +46,8 @@ class Grid(object):
     Initialize the lists of objects contained within this Grid.
     """
     def init(self):
-        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) #A grid of cells
+        #A grid of cells
+        self.GRID = N.empty((self.GRID_WIDTH, self.GRID_HEIGHT), dtype=Cell) 
         self.TRAVELERS = []
         self.TRAVEL_LOC = []
         self.CARRIERS = [] #An array of all the carriers
@@ -86,7 +90,8 @@ class Grid(object):
                 else:
                     #self.GRID[x][y] = self.LAND
                     self.GRID[x][y]= Cell(x, y, 'Land')
-                #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= self.MAX_CARRIERS:
+                #if rand[4] <= self.CARRIER_PROB and len(self.CARRIERS) <= 
+                                                        #self.MAX_CARRIERS:
                     #self.addCarrier(x, y)
         for i in range(self.MAX_TRAVELERS):
             self.TRAVELERS.append(Traveler())
@@ -129,7 +134,8 @@ class Grid(object):
         #Update Cells in this grid
         for i in range(self.GRID_WIDTH):
             for j in range(self.GRID_HEIGHT):
-                d, inf, a, r, s = self.GRID[i][j].update_population(self.CARRIERS)
+                d, inf, a, r, s = \
+                                self.GRID[i][j].update_population(self.CARRIERS)
                 dead += d
                 infected += inf
                 alive += a    

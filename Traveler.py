@@ -3,6 +3,9 @@ Class Traveler
 Represents an agent that moves about the grid. Travelers move between cities.
 They may carry infected Carriers around the grid, further infecting areas 
 within the grid.
+
+@authors Austen Harp, Garret King, Alex Tang, Roman Zhang
+Made for use in the Contagion 
 """
 import numpy as np
 
@@ -53,7 +56,12 @@ class Traveler(object):
         index = range(len(grid.TRAVEL_LOC))
         n = np.random.choice(index, 1)
         dest = grid.TRAVEL_LOC[n]
-        while (grid.GRID[dest[0]][dest[1]].INITIAL_POP != 0 or float(grid.GRID[dest[0]][dest[1]].TOTAL_DEAD / (grid.GRID[dest[0]][dest[1]].TOTAL_SUSCEPTIBLE + grid.GRID[dest[0]][dest[1]].TOTAL_RECOVERED + 0.001))) > .5 and i < num:
+        while (grid.GRID[dest[0]][dest[1]].INITIAL_POP != 0 or \
+            float(grid.GRID[dest[0]][dest[1]].TOTAL_DEAD / \
+            (grid.GRID[dest[0]][dest[1]].TOTAL_SUSCEPTIBLE + \
+            grid.GRID[dest[0]][dest[1]].TOTAL_RECOVERED + 0.001))) > \
+                                                        .5 and i < num:
+                                                            
             n = np.random.choice(index, 1)
             dest = grid.TRAVEL_LOC[n]
             i += 1
